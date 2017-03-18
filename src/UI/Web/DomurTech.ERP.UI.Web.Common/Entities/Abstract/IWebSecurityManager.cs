@@ -1,5 +1,5 @@
 ﻿using System;
-using DomurTech.Core.Entities;
+using DomurTech.Core.Security;
 
 namespace DomurTech.ERP.UI.Web.Common.Entities.Abstract
 {

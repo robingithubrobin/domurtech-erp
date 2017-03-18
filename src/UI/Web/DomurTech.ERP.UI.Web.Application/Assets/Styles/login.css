@@ -1,0 +1,28 @@
+﻿#login-container {
+    padding-top: 50px !important;
+}
+#login-form-row {
+    padding-top: 50px !important;
+}
+
+.login-panel-desc {
+    width: 300px;
+    float: left;
+}
+
+
+#login-logo {
+    background: url(../Images/logo.png) 50% no-repeat;
+    min-height: 100px;
+}
+
+
+
+.RefreshCaptcha{
+    background: url("../Images/RefreshCaptcha.png") no-repeat scroll left center;
+    cursor: pointer;
+    display: inline-block;
+    height: 25px;
+    line-height: 25px;
+    padding-left: 18px;
+}

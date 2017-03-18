@@ -1,0 +1,6 @@
+﻿#header-logo {
+    display: inline-block;
+    background: url(/Assets/Images/LogoHeader.png) no-repeat center center;
+    width:183px;
+    height: 50px;
+}

@@ -1,0 +1,109 @@
+﻿@using System.Threading
+@using DomurTech.ERP.UI.Web.Common.Globalization
+@using DomurTech.ERP.UI.Web.Common.Helpers
+@using DomurTech.Globalization
+@using DomurTech.Providers
+@model DomurTech.ERP.Business.Entities.Models.AccountModels.SignUpModel
+
+@{
+    ViewBag.Title = @Dictionaries.SignUp;
+    Layout = "~/Views/Shared/LoginLayout.cshtml";
+}
+
+<div class="row" id="login-form-row">
+    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6 hidden-xs hidden-sm">
+        <div class="login-panel-desc">
+            <div id="login-logo"></div>
+            <p>@SystemSettings.ApplicationName projesi, özgür yazılım yaklaşım ve yöntemlerini kullanarak, küçük ve orta ölçekli firmalar için rekabetçi ve yenilikçi bir ERP yazılımı geliştirmeyi ve bu yazılım üzerinde kurumsal pazar için ürün ve çözümleri üretmeyi hedefler.</p>
+        </div>
+        <img class="pull-right display-image" src="../../Assets/Images/iphoneview.png" style="width: 210px" />
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-6">
+        @if (!string.IsNullOrEmpty(Model.Message))
+        {
+            @Html.CustomAlertFor(m => m.Message, "div", Model.Message, new { @class = "alert alert-danger text-center" })
+        }
+        @using (Html.BeginForm("SignUp", "Account", FormMethod.Post, new { @role = "form", @class = "form-horizontal" }))
+        {
+            <fieldset>
+                <legend>@Dictionaries.SignUp</legend>
+                <div class="form-group has-feedback">
+                    @Html.LabelFor(x => x.User.FirstName, Dictionaries.FirstName, new {@class = "col-lg-3 control-label", @for = "User.FirstName"})
+                    <div class="col-lg-9">
+                        @Html.CustomTextBoxFor(m => m.User.FirstName, new {@class = "form-control"})
+                        <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                        @Html.ValidationMessageFor(m => m.User.FirstName, "", new {@class = "help-block"})
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    @Html.LabelFor(x => x.User.LastName, Dictionaries.LastName, new {@class = "col-lg-3 control-label", @for = "User.LastName"})
+                    <div class="col-lg-9">
+                        @Html.CustomTextBoxFor(m => m.User.LastName, new {@class = "form-control"})
+                        <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                        @Html.ValidationMessageFor(m => m.User.LastName, "", new {@class = "help-block"})
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    @Html.LabelFor(x => x.User.Username, Dictionaries.Username, new {@class = "col-lg-3 control-label", @for = "User.Username"})
+                    <div class="col-lg-9">
+                        @Html.CustomTextBoxFor(m => m.User.Username, new {@class = "form-control"})
+                        <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                        @Html.ValidationMessageFor(m => m.User.Username, "", new {@class = "help-block"})
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    @Html.LabelFor(x => x.User.Password, Dictionaries.Password, new {@class = "col-lg-3 control-label", @for = "User.Password"})
+                    <div class="col-lg-9">
+                        @Html.CustomPasswordFor(m => m.User.Password, new {@class = "form-control"})
+                        <i class="glyphicon glyphicon-lock form-control-feedback"></i>
+                        @Html.ValidationMessageFor(m => m.User.Password, "", new {@class = "help-block"})
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    @Html.LabelFor(x => x.User.ConfirmPassword, Dictionaries.ConfirmPassword, new {@class = "col-lg-3 control-label", @for = "User.ConfirmPassword"})
+                    <div class="col-lg-9">
+                        @Html.CustomPasswordFor(m => m.User.ConfirmPassword, new {@class = "form-control"})
+                        <i class="glyphicon glyphicon-lock form-control-feedback"></i>
+                        @Html.ValidationMessageFor(m => m.User.ConfirmPassword, "", new {@class = "help-block"})
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    @Html.LabelFor(x => x.User.Email, Dictionaries.Email, new { @class = "col-lg-3 control-label", @for = "User.Email" })
+                    <div class="col-lg-9">
+                        @Html.CustomEmailFor(m => m.User.Email, new { @class = "form-control" })
+                        <i class="glyphicon glyphicon-user form-control-feedback"></i>
+                        @Html.ValidationMessageFor(m => m.User.Email, "", new { @class = "help-block" })
+                    </div>
+                </div>
+                @if (SystemSettings.UseLoginCaptcha)
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.CaptchaValue, WebResources.Captcha, new { @class = "col-lg-3 control-label", @for = "CaptchaValue" })
+                        <div class="col-lg-9">
+                            <p class="form-control-static">
+                                <img src="@Url.Action("Get", "Captcha")" alt="@WebResources.Captcha" id="SignUpCaptchaImage" />
+                                <span id="SignUpCaptchaRefresh" class="RefreshCaptcha">@Dictionaries.Refresh</span>
+                            </p>
+                            @Html.CustomTextBoxFor(m => m.CaptchaValue, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.CaptchaValue, "", new { @class = "help-block" })
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.LanguageCode, Dictionaries.Language, new { @class = "col-lg-3 control-label", @for = "LanguageCode" })
+                    <div class="col-lg-9">
+                        @Html.DropDownListFor(m => m.LanguageCode, new SelectList(Model.Languages, "Key", "Value", Thread.CurrentThread.CurrentCulture), new { @class = "form-control SelectListSignUpLanguage" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-9 col-lg-offset-3">
+                        <button class="btn pull-right btn-primary">@Dictionaries.Save</button>
+                    </div>
+                </div>
+
+            </fieldset>
+        }
+    </div>
+</div>

@@ -1,0 +1,81 @@
+﻿@using System.Globalization
+@using System.Threading
+@using DomurTech.Globalization
+@using DomurTech.Providers
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>@ViewBag.Title - @SystemSettings.ApplicationName</title>
+    <link href="~/Assets/Styles/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/font-glyphicons.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/BootstrapThemes/slate.css" rel="stylesheet" type="text/css"/>
+    <link href="~/Assets/Styles/common.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/login.css" rel="stylesheet" type="text/css" />
+    @if (Equals(Thread.CurrentThread.CurrentCulture, CultureInfo.CreateSpecificCulture("ar-SA")))
+    {
+        <link href="~/Assets/Styles/rtl.css" rel="stylesheet" type="text/css" />
+    }
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="@Url.Action("Index", "Home")" id="header-logo" class="navbar-brand"></a>
+                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-login">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-login">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="@Url.Action("Login", "Account")"><i class="fa fa-sign-in"></i>&nbsp;@Dictionaries.Login</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("SignUp", "Account")"><i class="fa fa-user-plus"></i>&nbsp;@Dictionaries.SignUp</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("ForgotPassword", "Account")"><i class="fa fa-question-circle"></i>&nbsp;@Dictionaries.IForgotPassword</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container" id="login-container">
+        @RenderBody()
+    </div>
+
+
+    @*<div class="container-fluid">
+
+            <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <hr />
+                        <p class="small text-center">
+                            &copy; @SystemSettings.ApplicationName 2017. @Messages.AllRightsReserved <br /><label class="small">(<strong>@Dictionaries.BuildVersion: </strong>@typeof (MvcApplication).Assembly.GetName().Version)</label>
+                        </p>
+                    </div>
+                </div>
+        </div>*@
+
+    <script src="~/Assets/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Assets/Scripts/bootstrap.min.js"></script>
+    <script src="~/Assets/Scripts/modernizr-2.8.3.js"></script>
+    <!--[if lt IE 9]>
+        <script src="~/Assets/Scripts/respond.min.js"></script>
+        <script src="~/Assets/Scripts/html5shiv.min.js"></script>
+        <script src="~/Assets/Scripts/placeholder-IE-fixes.js"></script>
+    <![endif]-->
+    <script src="~/Assets/Scripts/common.js"></script>
+    <script src="~/Assets/Scripts/login.js"></script>
+</body>
+</html>

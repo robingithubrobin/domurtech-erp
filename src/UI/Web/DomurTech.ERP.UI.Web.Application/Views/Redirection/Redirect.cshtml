@@ -1,0 +1,25 @@
+﻿@using DomurTech.ERP.UI.Web.Common.Globalization
+@using DomurTech.Globalization
+@model DomurTech.ERP.UI.Web.Common.Entities.RedirectionModel
+@{
+    ViewBag.Title = Dictionaries.Redirection;
+    Layout = "~/Views/Shared/LoginLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-4 col-lg-offset-4">
+        <div id="login-logo"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-lg-offset-4">
+        <h3>@Dictionaries.Redirection</h3>
+        <div class="@Model.CssClass">@Model.Message</div>
+        <h4>@WebResources.RedirectionTitle</h4>
+        <p>
+            <a href="@Model.Url">@WebResources.RedirectionMessage</a>
+        </p>
+
+    </div>
+</div>
+<meta http-equiv="refresh" content="@Model.Timeout; url=@Model.Url">

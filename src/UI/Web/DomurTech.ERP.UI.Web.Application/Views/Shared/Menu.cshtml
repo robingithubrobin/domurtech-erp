@@ -1,0 +1,39 @@
+﻿@using System.Threading
+@using DomurTech.Core.Entities
+@using DomurTech.Globalization
+
+@{
+    var identity = (Identity)Thread.CurrentPrincipal.Identity;
+}
+
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+
+           
+            <li>
+                <a href="@Url.Action("Index", "Home")"><i class="fa fa-home fa-fw"></i> @Dictionaries.HomePage</a>
+            </li>
+            @foreach (var roleCode in identity.Roles)
+            {
+                
+                
+
+
+
+
+
+
+            }
+
+            
+            
+          
+           
+           
+           
+
+
+        </ul>
+    </div>
+</div>

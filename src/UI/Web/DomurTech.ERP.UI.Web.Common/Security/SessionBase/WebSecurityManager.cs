@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web;
-using DomurTech.Core.Entities;
+using DomurTech.Core.Security;
 using DomurTech.ERP.UI.Web.Common.Entities.Abstract;
 using DomurTech.Helpers;
 using DomurTech.Providers;

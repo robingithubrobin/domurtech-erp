@@ -1,0 +1,31 @@
+﻿@using DomurTech.Globalization
+@model DomurTech.ERP.Business.Entities.Models.AccountModels.AccountModel
+<div class="list-group">
+    <div class="list-group-item">
+        <i class="fa fa-key fa-fw"></i> @Dictionaries.Username
+        <span class="pull-right text-muted small">
+            <em>@Model.User.Username</em>
+        </span>
+    </div>
+    <div class="list-group-item">
+        <i class="fa fa-user fa-fw"></i> @Dictionaries.Name
+        <span class="pull-right text-muted small">
+            <em>@Model.User.FullName</em>
+        </span>
+    </div>
+    <div class="list-group-item">
+        <i class="fa fa-sign-in fa-fw"></i> @Dictionaries.LastLoginTime
+        <span class="pull-right text-muted small">
+            <em>@Model.LastLoginTime</em>
+        </span>
+    </div>
+    <div class="list-group-item">
+        <i class="fa fa-clock-o fa-fw"></i> @Dictionaries.RemainingSessionTime
+        <span class="pull-right text-muted small">
+            <em class="CountDownLabel">@Model.RemainingSessionTime</em>
+        </span>
+    </div>
+
+</div>
+
+

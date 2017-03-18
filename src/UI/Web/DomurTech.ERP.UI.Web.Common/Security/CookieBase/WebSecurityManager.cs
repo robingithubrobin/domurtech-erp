@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Threading;
 using System.Web;
-using DomurTech.Core.Entities;
+using DomurTech.Core.Security;
 using DomurTech.ERP.UI.Web.Common.Entities.Abstract;
 using DomurTech.Helpers;
 

@@ -1,0 +1,120 @@
+﻿@using DomurTech.ERP.Business.Managers.Options
+@using DomurTech.Globalization
+@model DomurTech.ERP.UI.Web.Application.Models.HeaderModel
+
+
+
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="@Url.Action("Index", "Home")" class="navbar-brand">@Model.ApplicationName</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes" aria-expanded="false">Themes <span class="caret"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="themes">
+                        <li><a href="../default/">Default</a></li>
+                        <li class="divider"></li>
+                        <li><a href="../cerulean/">Cerulean</a></li>
+                        <li><a href="../cosmo/">Cosmo</a></li>
+                        <li><a href="../cyborg/">Cyborg</a></li>
+                        <li><a href="../darkly/">Darkly</a></li>
+                        <li><a href="../flatly/">Flatly</a></li>
+                        <li><a href="../journal/">Journal</a></li>
+                        <li><a href="../lumen/">Lumen</a></li>
+                        <li><a href="../paper/">Paper</a></li>
+                        <li><a href="../readable/">Readable</a></li>
+                        <li><a href="../sandstone/">Sandstone</a></li>
+                        <li><a href="../simplex/">Simplex</a></li>
+                        <li><a href="../slate/">Slate</a></li>
+                        <li><a href="../solar/">Solar</a></li>
+                        <li><a href="../spacelab/">Spacelab</a></li>
+                        <li><a href="../superhero/">Superhero</a></li>
+                        <li><a href="../united/">United</a></li>
+                        <li><a href="../yeti/">Yeti</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../help/">Help</a>
+                </li>
+                <li>
+                    <a href="http://news.bootswatch.com">Blog</a>
+                </li>
+                <li class="dropdown open">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download" aria-expanded="true">Cerulean <span class="caret"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="download">
+                        <li><a href="http://jsfiddle.net/bootswatch/9y480qo5/">Open Sandbox</a></li>
+                        <li class="divider"></li>
+                        <li><a href="./bootstrap.min.css">bootstrap.min.css</a></li>
+                        <li><a href="./bootstrap.css">bootstrap.css</a></li>
+                        <li class="divider"></li>
+                        <li><a href="./variables.less">variables.less</a></li>
+                        <li><a href="./bootswatch.less">bootswatch.less</a></li>
+                        <li class="divider"></li>
+                        <li><a href="./_variables.scss">_variables.scss</a></li>
+                        <li><a href="./_bootswatch.scss">_bootswatch.scss</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-flag fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        @foreach (var language in Model.Languages)
+            {
+                            <li>
+                                @Html.ActionLink(language.Value, "Change", "Language", new { culture = language.Key, returnUrl = Request.RawUrl }, null)
+                            </li>
+                        }
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> @Model.Account.User.DisplayName <b class="caret"></b></a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a href="@Url.Action("MyAccount")"><i class="fa fa-user fa-fw"></i> @Dictionaries.MyAccount</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("UpdateMyPassword")"><i class="fa fa-key fa-fw"></i> @Dictionaries.UpdateMyPassword</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+
+                        <li>
+                            <a href="#" class="logout-link" data-confirm-href="@Url.Action("Logout", new {logoutOptions = LogoutOptions.ValidLogut})" data-confirm-title="@Messages.QuestionAreYouSure" data-confirm-message="@Messages.QuestionAreYouSureLogout" data-confirm-ok="@Dictionaries.Yes" data-confirm-cancel="@Dictionaries.No"><i class="fa fa-sign-out fa-fw"></i> @Dictionaries.Logout</a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@*<div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    <a href="" id="header-logo" title="" class="navbar-brand"></a>
+</div>
+<div class="navbar-text small">
+    <strong>@Dictionaries.LastLoginTime:</strong> @Convert.ToDateTime(Model.Account.LastLoginTime).ToString("yyyy-MM-dd HH:mm")
+    | <strong>@Dictionaries.RemainingSessionTime: </strong><span class="CountDownLabel" logouturl="@Url.Action("TimeOutLogout")">@Model.Account.RemainingSessionTime</span>
+    | <strong>@Dictionaries.BuildVersion: </strong>@typeof (MvcApplication).Assembly.GetName().Version
+</div>*@

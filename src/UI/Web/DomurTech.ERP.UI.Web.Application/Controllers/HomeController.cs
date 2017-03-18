@@ -1,15 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using DomurTech.ERP.UI.Web.Common.Infrastructure;
+using DomurTech.ERP.UI.Web.Common.Security;
 
 namespace DomurTech.ERP.UI.Web.Application.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : CustomController
     {
-        // GET: Home
+        [CustomSecurity]
         public ActionResult Index()
+        {
+            return RedirectToAction("MyAccount", "Account");
+        }
+
+        [CustomSecurity]
+        public ActionResult Dashboard()
         {
             return View();
         }

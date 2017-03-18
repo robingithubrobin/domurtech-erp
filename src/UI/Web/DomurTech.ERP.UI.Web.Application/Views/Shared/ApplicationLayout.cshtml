@@ -1,0 +1,56 @@
+﻿@using System.Globalization
+@using System.Threading
+@using DomurTech.Providers
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>@ViewBag.Title - @SystemSettings.ApplicationName</title>
+    <link href="~/Assets/Styles/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/font-glyphicons.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/metisMenu.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/BootstrapThemes/paper.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/common.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/app.css" rel="stylesheet" type="text/css" />
+    @if (Equals(Thread.CurrentThread.CurrentCulture, CultureInfo.CreateSpecificCulture("ar-SA")))
+    {
+        <link href="~/Assets/Styles/rtl.css" rel="stylesheet" type="text/css" />
+    }
+</head>
+<body>
+
+
+<div class="container">
+    @Html.Action("Header", "Account")
+    @*@Html.Partial("Menu")*@
+    @RenderBody()
+    @Html.Partial("Footer")
+</div>
+
+    <script src="~/Assets/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Assets/Scripts/bootstrap.min.js"></script>
+    <script src="~/Assets/Scripts/modernizr-2.8.3.js"></script>
+    <!--[if lt IE 9]>
+        <script src="~/Assets/Scripts/respond.min.js"></script>
+        <script src="~/Assets/Scripts/html5shiv.min.js"></script>
+        <script src="~/Assets/Scripts/placeholder-IE-fixes.js"></script>
+    <![endif]-->
+    <script src="~/Assets/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Assets/Scripts/dataTables.bootstrap.js"></script>
+    <script src="~/Assets/Scripts/ckeditor/ckeditor.js"></script>
+    <script src="~/Assets/Scripts/metisMenu.min.js"></script>
+    <script src="~/Assets/Scripts/confirm-bootstrap.js"></script>
+    <script src="~/Assets/Scripts/jquery.countdown.js"></script>
+    <script src="~/Assets/Scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/Assets/Scripts/bootstrap-datepicker.tr.min.js"></script>
+    <script src="~/Assets/Scripts/ckeditor/adapters/jquery.js"></script>
+    <script src="~/Assets/Scripts/common.js"></script>
+    <script src="~/Assets/Scripts/app.js"></script>
+</body>
+</html>
