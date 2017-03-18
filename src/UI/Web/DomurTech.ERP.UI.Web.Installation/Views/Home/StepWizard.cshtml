@@ -1,0 +1,15 @@
+﻿@using DomurTech.Globalization
+@{
+    Layout = null;
+}
+<div class="stepwizard">
+    <div class="stepwizard-row setup-panel">
+        @for (var i = 1; i <= 6; i++)
+        {
+            <div class="stepwizard-step">
+                <a href="@Url.Action("Step"+i)" type="button" class="btn btn-circle @((string) ViewBag.Step == i.ToString() ? "btn-primary" : "btn-default")" @((string)ViewBag.Step != i.ToString() ? "disabled=\"disabled\"" : "")>@i</a>
+                <p>@Dictionaries.Step @i</p>
+            </div>
+        }
+    </div>
+</div>

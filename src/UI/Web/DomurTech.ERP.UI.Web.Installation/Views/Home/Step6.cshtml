@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Kurulum Sonu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        @Html.Action("StepWizard", new { @step = "6" })
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="alert alert-success"><strong>Tebrikler! </strong>Kurulum başarıyla tamamlandı.</div>
+    </div>
+</div>

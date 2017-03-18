@@ -1,0 +1,38 @@
+﻿@using DomurTech.Globalization
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - DomurTech.ERP</title>
+    <link href="~/Assets/Styles/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/font-glyphicons.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/BootstrapThemes/slate.css" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/Styles/custom.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h2 class="text-center">Kurulum</h2>
+                <br />
+            </div>
+        </div>
+        @RenderBody()
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <hr />
+                <p class="small text-center">
+                    &copy; @Dictionaries.ApplicationName 2017. @Messages.AllRightsReserved <br /><label class="small">(<strong>@Dictionaries.BuildVersion: </strong>@typeof(MvcApplication).Assembly.GetName().Version)</label>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="~/Assets/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Assets/Scripts/bootstrap.min.js"></script>
+    <script src="~/Assets/Scripts/modernizr-2.8.3.js"></script>
+    <script src="~/Assets/Scripts/common.js"></script>
+    <script src="~/Assets/Scripts/custom.js"></script>
+</body>
+</html>

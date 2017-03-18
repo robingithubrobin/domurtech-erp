@@ -1,0 +1,60 @@
+﻿@using DomurTech.Globalization
+@{
+    ViewBag.Title = "Kurulum Sonu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        @Html.Action("StepWizard", new {@step = "5"})
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="alert alert-warning"><strong>Dikkat! </strong>Bu aşamadaki işlemler bir kaç dakika sürebilir. İleri düğmesine bastıktan sonra diğer ekrana otomatik olarak geçinceye kadar bekleyiniz.</div>
+    </div>
+</div>  
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        @using (Html.BeginForm("Step5", "Home", FormMethod.Post, new {@role = "form", @class = "form-horizontal"}))
+        {
+            <fieldset>
+                <legend>Son İşlemler</legend>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Yapılacak İşlemler</label>
+                    <div class="col-lg-9">
+                        <div class="checkbox">
+                            <label>
+                                <input checked="checked" disabled="disabled" type="checkbox">
+                                Ülke bilgileri eklenecek.
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input checked="checked" disabled="disabled" type="checkbox">
+                                Şehir bilgileri eklenecek.
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input checked="checked" disabled="disabled" type="checkbox">
+                                İlçe bilgileri eklenecek.
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input checked="checked" disabled="disabled" type="checkbox">
+                                Yetki işlemleri ayarlanacak.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-9 col-lg-offset-3">
+                        <a href="@Url.Action("Step4")" class="btn pull-left btn-primary">&laquo; @Dictionaries.Previous</a>
+                        <button class="btn pull-right btn-primary">@Dictionaries.Next &raquo;</button>
+                    </div>
+                </div>
+            </fieldset>
+        }
+    </div>
+</div>

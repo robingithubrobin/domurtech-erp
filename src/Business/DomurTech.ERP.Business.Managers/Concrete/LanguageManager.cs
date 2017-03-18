@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DomurTech.ERP.Business.Entities.Models.BaseModels;
 using DomurTech.ERP.Business.Managers.Abstract;
 using DomurTech.ERP.Data.Access.Abstract;

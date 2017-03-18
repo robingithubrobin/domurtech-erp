@@ -7,94 +7,64 @@ namespace DomurTech.Helpers
 {
     public static class SecurityHelper
     {
-        private const string Base64Key = "+eoeofewQqQflkspAwVCXZ43291HOtcrIoe3w+8!9jnP=(&N++5XYi0rU=";
-        private static readonly byte[] Key = Convert.FromBase64String(Base64Key);
+        private const string InitVector = "6X#ny0Y-!i1WbJ%2";
         private const int KeySize = 256;
-        public static string Encrypt(this string plainText)
+        private const int PasswordIterations = 10000;
+        private const string SaltValue = "1jT?!C6rSm-05By%b8#W7+Fo@Gf32z#XwE9!4q+Y@9PeZ%g6-2HcpQ?1?5Jta+8R";
+        private const string PassPhrase = "y+H6#A5p";
+
+        public static string Encrypt(string plainText)
         {
-            if (Key == null || Key.Length <= 0)
+            string encryptedText;
+            var initVectorBytes = Encoding.UTF8.GetBytes(InitVector);
+            var passwordBytes = Encoding.UTF8.GetBytes(PassPhrase);
+            var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+            var saltValueBytes = Encoding.UTF8.GetBytes(SaltValue);
+            var password = new Rfc2898DeriveBytes(passwordBytes, saltValueBytes, PasswordIterations);
+            var keyBytes = password.GetBytes(KeySize / 8);
+            var rijndaelManaged = new RijndaelManaged { Mode = CipherMode.CBC };
+            using (var encryptor = rijndaelManaged.CreateEncryptor(keyBytes, initVectorBytes))
             {
-                throw new ArgumentNullException();
-            }
-            byte[] returnValue;
-            using (var aes = Aes.Create())
-            {
-                if (aes == null)
+                using (var memoryStream = new MemoryStream())
                 {
-                    throw new Exception("AES not create");
-                }
-                aes.KeySize = KeySize;
-                aes.GenerateIV();
-                aes.Mode = CipherMode.CBC;
-                var iv = aes.IV;
-                if (string.IsNullOrEmpty(plainText))
-                {
-                    return Convert.ToBase64String(iv);
-                }
-                var encryptor = aes.CreateEncryptor(Key, iv);
-                using (var msEncrypt = new MemoryStream())
-                {
-                    using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write)
+                        )
                     {
-                        using (var swEncrypt = new StreamWriter(csEncrypt))
-                        {
-                            swEncrypt.Write(plainText);
-                        }
-                        var encrypted = msEncrypt.ToArray();
-                        returnValue = new byte[encrypted.Length + iv.Length];
-                        Array.Copy(iv, returnValue, iv.Length);
-                        Array.Copy(encrypted, 0, returnValue, iv.Length, encrypted.Length);
+                        cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
+                        cryptoStream.FlushFinalBlock();
+                        var cipherTextBytes = memoryStream.ToArray();
+                        encryptedText = Convert.ToBase64String(cipherTextBytes);
                     }
                 }
             }
-            return Convert.ToBase64String(returnValue);
+            return encryptedText;
         }
 
-        public static string Decrypt(this string cipherText)
+        public static string Decrypt(string encryptedText)
         {
-            if (string.IsNullOrEmpty(cipherText))
+            var encryptedTextBytes = Convert.FromBase64String(encryptedText);
+            var initVectorBytes = Encoding.UTF8.GetBytes(InitVector);
+            var passwordBytes = Encoding.UTF8.GetBytes(PassPhrase);
+            string plainText;
+            var saltValueBytes = Encoding.UTF8.GetBytes(SaltValue);
+            var password = new Rfc2898DeriveBytes(passwordBytes, saltValueBytes, PasswordIterations);
+            var keyBytes = password.GetBytes(KeySize / 8);
+            var rijndaelManaged = new RijndaelManaged { Mode = CipherMode.CBC };
+            using (var decryptor = rijndaelManaged.CreateDecryptor(keyBytes, initVectorBytes))
             {
-                return string.Empty;
-            }
-            if (Key == null || Key.Length <= 0)
-            {
-                throw new ArgumentNullException();
-            }
-
-            string plaintext;
-            var allBytes = Convert.FromBase64String(cipherText);
-
-            using (var aes = Aes.Create())
-            {
-                if (aes == null)
+                using (var memoryStream = new MemoryStream(encryptedTextBytes))
                 {
-                    throw new Exception("AES not create");
-                }
-                aes.KeySize = KeySize;
-                aes.Mode = CipherMode.CBC;
-                var iv = new byte[aes.BlockSize / 8];
-                if (allBytes.Length < iv.Length)
-                {
-                    throw new ArgumentException("Message was less than IV size.");
-                }
-                Array.Copy(allBytes, iv, iv.Length);
-                var cipherBytes = new byte[allBytes.Length - iv.Length];
-                Array.Copy(allBytes, iv.Length, cipherBytes, 0, cipherBytes.Length);
-                var decryptor = aes.CreateDecryptor(Key, iv);
-                using (var msDecrypt = new MemoryStream(cipherBytes))
-                {
-                    using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
                     {
-                        using (var srDecrypt = new StreamReader(csDecrypt))
-                        {
-                            plaintext = srDecrypt.ReadToEnd();
-                        }
+                        var plainTextBytes = new byte[encryptedTextBytes.Length];
+                        var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
+                        plainText = Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
                     }
                 }
             }
-            return plaintext;
+            return plainText;
         }
-
+        
         public static bool ValidatePassword(string password, int minLength = 8, int numUpper = 1, int numLower = 1, int numNumbers = 1, int numSpecial = 1)
         {
             if (string.IsNullOrEmpty(password))
