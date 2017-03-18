@@ -13,7 +13,7 @@ namespace DomurTech.Helpers
         private const string SaltValue = "1jT?!C6rSm-05By%b8#W7+Fo@Gf32z#XwE9!4q+Y@9PeZ%g6-2HcpQ?1?5Jta+8R";
         private const string PassPhrase = "y+H6#A5p";
 
-        public static string Encrypt(string plainText)
+        public static string Encrypt(this string plainText)
         {
             string encryptedText;
             var initVectorBytes = Encoding.UTF8.GetBytes(InitVector);
@@ -40,7 +40,7 @@ namespace DomurTech.Helpers
             return encryptedText;
         }
 
-        public static string Decrypt(string encryptedText)
+        public static string Decrypt(this string encryptedText)
         {
             var encryptedTextBytes = Convert.FromBase64String(encryptedText);
             var initVectorBytes = Encoding.UTF8.GetBytes(InitVector);
