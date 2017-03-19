@@ -69,8 +69,8 @@
     <Compile Include="Concrete\RoleUserLineHistory.cs" />
     <Compile Include="Concrete\Session.cs" />
     <Compile Include="Concrete\SessionHistory.cs" />
-    <Compile Include="Concrete\Setting.cs" />
-    <Compile Include="Concrete\SettingHistory.cs" />
+    <Compile Include="Concrete\ApplicationSetting.cs" />
+    <Compile Include="Concrete\ApplicationSettingHistory.cs" />
     <Compile Include="Concrete\User.cs" />
     <Compile Include="Concrete\UserHistory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

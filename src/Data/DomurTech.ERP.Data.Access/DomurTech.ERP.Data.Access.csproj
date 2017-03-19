@@ -80,8 +80,8 @@
     <Compile Include="EntityFramework\Configurations\RoleUserLineHistoryConfiguration.cs" />
     <Compile Include="EntityFramework\Configurations\SessionConfiguration.cs" />
     <Compile Include="EntityFramework\Configurations\SessionHistoryConfiguration.cs" />
-    <Compile Include="EntityFramework\Configurations\SettingConfiguration.cs" />
-    <Compile Include="EntityFramework\Configurations\SettingHistoryConfiguration.cs" />
+    <Compile Include="EntityFramework\Configurations\ApplicationSettingConfiguration.cs" />
+    <Compile Include="EntityFramework\Configurations\ApplicationSettingHistoryConfiguration.cs" />
     <Compile Include="EntityFramework\Configurations\UserConfiguration.cs" />
     <Compile Include="EntityFramework\Configurations\UserHistoryConfiguration.cs" />
     <Compile Include="EntityFramework\DatabaseContext.cs" />

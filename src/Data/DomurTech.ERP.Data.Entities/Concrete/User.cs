@@ -55,8 +55,8 @@ namespace DomurTech.ERP.Data.Entities.Concrete
         public virtual IList<RoleUserLine> RoleUserLinesUpdatedBy { get; set; }
         public virtual IList<Session> SessionsCreatedBy { get; set; }
         public virtual IList<SessionHistory> SessionHistoriesCreatedBy { get; set; }
-        public virtual IList<Setting> SettingsCreatedBy { get; set; }
-        public virtual IList<Setting> SettingsUpdatedBy { get; set; }
+        public virtual IList<ApplicationSetting> ApplicationSettingsCreatedBy { get; set; }
+        public virtual IList<ApplicationSetting> ApplicationSettingsUpdatedBy { get; set; }
         public virtual IList<User> UsersCreatedBy { get; set; }
         public virtual IList<User> UsersUpdatedBy { get; set; }
        

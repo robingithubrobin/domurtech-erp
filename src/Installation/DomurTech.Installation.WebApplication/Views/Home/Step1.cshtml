@@ -1,0 +1,58 @@
+﻿@using DomurTech.Globalization
+
+@{
+    ViewBag.Title = "Veritabanı Bilgileri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DomurTech.Installation.Common.Models.DatabaseConnectionModel
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        @Html.Action("StepWizard", new {step="1"})
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        @using (Html.BeginForm("Step1", "Home", FormMethod.Post, new { @role = "form", @class= "form-horizontal" }))
+        {
+            <fieldset>
+                <legend>Veritabanı Bilgileri</legend>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.DataSource, Dictionaries.Server, new { @class = "col-lg-3 control-label", @for = "DataSource" })
+                    <div class="col-lg-9">
+                        @Html.TextBoxFor(m => m.DataSource, new {@class = "form-control"})
+                        @Html.ValidationMessageFor(m => m.DataSource, "", new {@class = "help-block"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.InitialCatalog, Dictionaries.Database, new { @class = "col-lg-3 control-label", @for = "InitialCatalog" })
+                    <div class="col-lg-9">
+                        @Html.TextBoxFor(m => m.InitialCatalog, new {@class = "form-control"})
+                        @Html.ValidationMessageFor(m => m.InitialCatalog, "", new {@class = "help-block"})
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.UserId, Dictionaries.Username, new { @class = "col-lg-3 control-label", @for = "UserId" })
+                    <div class="col-lg-9">
+                        @Html.TextBoxFor(m => m.UserId, new {@class = "form-control"})
+                        @Html.ValidationMessageFor(m => m.UserId, "", new {@class = "help-block"})
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Password, Dictionaries.Password, new { @class = "col-lg-3 control-label", @for = "Password" })
+                    <div class="col-lg-9">
+                        @Html.TextBoxFor(m => m.Password, new {@class = "form-control"})
+                        @Html.ValidationMessageFor(m => m.Password, "", new {@class = "help-block"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-9 col-lg-offset-3">
+                        <button class="btn pull-right btn-primary">@Dictionaries.Next &raquo;</button>
+                    </div>
+                </div>
+            </fieldset>
+        }
+    </div>
+</div>

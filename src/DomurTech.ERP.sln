@@ -41,7 +41,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomurTech.ERP.UI.Web.Common
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomurTech.ERP.UI.Web.Application", "UI\Web\DomurTech.ERP.UI.Web.Application\DomurTech.ERP.UI.Web.Application.csproj", "{39BA999E-7F05-456A-9BF8-47BA912100AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomurTech.ERP.UI.Web.Installation", "UI\Web\DomurTech.ERP.UI.Web.Installation\DomurTech.ERP.UI.Web.Installation.csproj", "{80E229B2-F21E-4532-BD70-0831F0E0F0D0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installation", "Installation", "{9BE2D36D-64B0-4B61-86CF-6999BBD6B469}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomurTech.Installation.Common", "Installation\DomurTech.Installation.Common\DomurTech.Installation.Common.csproj", "{A47281BD-8600-4922-B4B9-222FD6183B82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomurTech.Installation.WebApplication", "Installation\DomurTech.Installation.WebApplication\DomurTech.Installation.WebApplication.csproj", "{7AE9B61B-BF17-468D-A3B9-4EA6E61D93D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,10 +109,14 @@ Global
 		{39BA999E-7F05-456A-9BF8-47BA912100AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39BA999E-7F05-456A-9BF8-47BA912100AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39BA999E-7F05-456A-9BF8-47BA912100AB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80E229B2-F21E-4532-BD70-0831F0E0F0D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80E229B2-F21E-4532-BD70-0831F0E0F0D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80E229B2-F21E-4532-BD70-0831F0E0F0D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80E229B2-F21E-4532-BD70-0831F0E0F0D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A47281BD-8600-4922-B4B9-222FD6183B82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A47281BD-8600-4922-B4B9-222FD6183B82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A47281BD-8600-4922-B4B9-222FD6183B82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A47281BD-8600-4922-B4B9-222FD6183B82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AE9B61B-BF17-468D-A3B9-4EA6E61D93D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AE9B61B-BF17-468D-A3B9-4EA6E61D93D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AE9B61B-BF17-468D-A3B9-4EA6E61D93D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AE9B61B-BF17-468D-A3B9-4EA6E61D93D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,7 +137,8 @@ Global
 		{C503D4C3-A023-41B1-92DF-8C2F8B31D5D7} = {0E5C96B8-2468-486F-95E6-8ADFE52231AB}
 		{670FF551-3264-4D5F-B6BC-58468217A02A} = {C503D4C3-A023-41B1-92DF-8C2F8B31D5D7}
 		{39BA999E-7F05-456A-9BF8-47BA912100AB} = {C503D4C3-A023-41B1-92DF-8C2F8B31D5D7}
-		{80E229B2-F21E-4532-BD70-0831F0E0F0D0} = {C503D4C3-A023-41B1-92DF-8C2F8B31D5D7}
+		{A47281BD-8600-4922-B4B9-222FD6183B82} = {9BE2D36D-64B0-4B61-86CF-6999BBD6B469}
+		{7AE9B61B-BF17-468D-A3B9-4EA6E61D93D8} = {9BE2D36D-64B0-4B61-86CF-6999BBD6B469}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		RESX_NeutralResourcesLanguage = tr-TR
