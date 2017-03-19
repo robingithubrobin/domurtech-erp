@@ -9,6 +9,7 @@ namespace DomurTech.ERP.Data.Entities.Concrete
         public Guid PersonId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public int DisplayOrder { get; set; }
         public bool IsApproved { get; set; }
         public DateTime CreateDate { get; set; }
         public Guid CreatedBy { get; set; }

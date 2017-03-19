@@ -10,16 +10,15 @@ namespace DomurTech.ERP.Data.Entities.Concrete
         public string Username { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
         public int DisplayOrder { get; set; }
         public bool IsApproved { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
         public virtual User CreatedBy { get; set; }
         public virtual User UpdatedBy { get; set; }
+        public Person Person { get; set; }
         public virtual Language Language { get; set; }
-        public string FullName => FirstName + " " + LastName;
+        public string FullName => Person.FirstName + " " + Person.LastName;
         public string DisplayName { get; set; }
         public string ConfirmPassword { get; set; }
         public string OldPassword { get; set; }

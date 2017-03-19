@@ -159,7 +159,7 @@ namespace DomurTech.ERP.UI.Web.Installation.Controllers
                 using (var context = new InstallationDatabaseContext())
                 {
 
-                    _userInstaller = new UserInstaller(new Repository<User>(context),new Repository<Language>(context),new Repository<UserHistory>(context));
+                    _userInstaller = new UserInstaller(new Repository<User>(context),new Repository<Language>(context),new Repository<UserHistory>(context),new Repository<Person>(context),new Repository<PersonHistory>(context) );
 
                     if (_userInstaller.Exists())
                     {

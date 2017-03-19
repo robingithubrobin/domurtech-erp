@@ -131,4 +131,7 @@ Global
 		{39BA999E-7F05-456A-9BF8-47BA912100AB} = {C503D4C3-A023-41B1-92DF-8C2F8B31D5D7}
 		{80E229B2-F21E-4532-BD70-0831F0E0F0D0} = {C503D4C3-A023-41B1-92DF-8C2F8B31D5D7}
 	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		RESX_NeutralResourcesLanguage = tr-TR
+	EndGlobalSection
 EndGlobal

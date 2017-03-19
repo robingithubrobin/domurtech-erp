@@ -19,6 +19,7 @@ namespace DomurTech.ERP.Data.Access.EntityFramework.Configurations
             Property(x => x.Id).IsRequired();
             Property(x => x.FirstName).IsRequired().HasColumnType("nvarchar").HasMaxLength(100);
             Property(x => x.LastName).IsRequired().HasColumnType("nvarchar").HasMaxLength(100);
+            Property(x => x.DisplayOrder).IsRequired();
             Property(x => x.IsApproved).IsRequired();
             Property(x => x.CreateDate).IsRequired();
             Property(x => x.CreatedBy).IsRequired();

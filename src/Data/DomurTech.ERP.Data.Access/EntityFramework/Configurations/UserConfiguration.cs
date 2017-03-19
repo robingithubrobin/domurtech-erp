@@ -22,8 +22,6 @@ namespace DomurTech.ERP.Data.Access.EntityFramework.Configurations
             Property(x => x.Username).IsRequired().HasColumnType("nvarchar").HasMaxLength(10).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("UK_Username", 1) { IsUnique = true }));
             Property(x => x.Password).IsRequired().HasColumnType("char").HasMaxLength(128);
             Property(x => x.Email).IsRequired().HasColumnType("nvarchar").HasMaxLength(100);
-            Property(x => x.FirstName).IsRequired().HasColumnType("nvarchar").HasMaxLength(100);
-            Property(x => x.LastName).IsRequired().HasColumnType("nvarchar").HasMaxLength(100);
            
             Property(x => x.DisplayOrder).IsRequired();
             Property(x => x.IsApproved).IsRequired();
@@ -32,6 +30,7 @@ namespace DomurTech.ERP.Data.Access.EntityFramework.Configurations
             HasRequired(x => x.CreatedBy).WithMany(y => y.UsersCreatedBy).WillCascadeOnDelete(false);
             HasRequired(x => x.UpdatedBy).WithMany(y => y.UsersUpdatedBy).WillCascadeOnDelete(false);
             HasRequired(x => x.Language).WithMany(y => y.Users).WillCascadeOnDelete(false);
+            HasRequired(x => x.Person).WithMany(y => y.Users).WillCascadeOnDelete(false);
             Ignore(x => x.FullName);
             Ignore(x => x.DisplayName);
             Ignore(x => x.ConfirmPassword);

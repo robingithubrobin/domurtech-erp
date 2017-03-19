@@ -20,9 +20,8 @@ namespace DomurTech.ERP.Data.Access.EntityFramework.Configurations
             Property(x => x.Username).IsRequired().HasColumnType("nvarchar").HasMaxLength(10);
             Property(x => x.Password).IsRequired().HasColumnType("char").HasMaxLength(128);
             Property(x => x.Email).IsRequired().HasColumnType("nvarchar").HasMaxLength(100);
-            Property(x => x.FirstName).IsRequired().HasColumnType("nvarchar").HasMaxLength(100);
-            Property(x => x.LastName).IsRequired().HasColumnType("nvarchar").HasMaxLength(100);
             Property(x => x.LanguageId).IsRequired();
+            Property(x => x.PersonId).IsRequired();
             Property(x => x.DisplayOrder).IsRequired();
             Property(x => x.IsApproved).IsRequired();
             Property(x => x.CreateDate).IsRequired();

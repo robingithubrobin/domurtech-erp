@@ -11,9 +11,8 @@ namespace DomurTech.ERP.Data.Entities.Concrete
         public string Username { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
         public Guid LanguageId { get; set; }
+        public Guid PersonId { get; set; }
         public int DisplayOrder { get; set; }
         public bool IsApproved { get; set; }
         public DateTime CreateDate { get; set; }

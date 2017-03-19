@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DomurTech.Core.Abstract;
 
 namespace DomurTech.ERP.Data.Entities.Concrete
@@ -10,11 +11,13 @@ namespace DomurTech.ERP.Data.Entities.Concrete
         public string LastName { get; set; }
         public string TcKimlikNo { get; set; }
         public DateTime BirthDate { get; set; }
+        public int DisplayOrder { get; set; }
         public bool IsApproved { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
         public virtual User CreatedBy { get; set; }
         public virtual User UpdatedBy { get; set; }
-       
+        public virtual IList<User> Users { get; set; }
+
     }
 }
