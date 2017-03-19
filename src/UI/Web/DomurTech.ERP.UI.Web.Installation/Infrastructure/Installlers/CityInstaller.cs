@@ -71,22 +71,25 @@ namespace DomurTech.ERP.UI.Web.Installation.Infrastructure.Installlers
             _repositoryCityHistory.SaveChanges();
 
             var user = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1);
-            var language = _repositoryLanguage.Get().FirstOrDefault(x => x.DisplayOrder == 1);
-
-           
             for (var i = 0; i < items.Count; i++)
             {
-                _repositoryCityLanguageLine.Add(new CityLanguageLine
+                foreach (var language in _repositoryLanguage.Get().Where(x=>x.IsApproved).OrderBy(x=>x.DisplayOrder))
                 {
-                    Id = Guid.NewGuid(),
-                    City = items[i],
-                    Language = language,
-                    CityName = dataList[i].CityName,
-                    CreateDate = DateTime.Now,
-                    CreatedBy = user,
-                    UpdateDate = DateTime.Now,
-                    UpdatedBy = user
-                });
+                    _repositoryCityLanguageLine.Add(new CityLanguageLine
+                    {
+                        Id = Guid.NewGuid(),
+                        City = items[i],
+                        Language = language,
+                        CityName = dataList[i].CityName,
+                        CreateDate = DateTime.Now,
+                        CreatedBy = user,
+                        UpdateDate = DateTime.Now,
+                        UpdatedBy = user
+                    });
+                }
+
+
+                
             }
             _repositoryCityLanguageLine.SaveChanges();
 

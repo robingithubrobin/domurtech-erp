@@ -23,7 +23,7 @@ namespace DomurTech.ERP.UI.Web.Installation.Infrastructure.Installlers
             _repositoryCountryLanguageLineHistory = repositoryCountryLanguageLineHistory;
             _repositoryLanguage = repositoryLanguage;
             _repositoryUser = repositoryUser;
-            
+
         }
 
         public void Set()
@@ -65,22 +65,27 @@ namespace DomurTech.ERP.UI.Web.Installation.Infrastructure.Installlers
             _repositoryCountryHistory.SaveChanges();
 
             var user = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1);
-            var language = _repositoryLanguage.Get().FirstOrDefault(x => x.DisplayOrder == 1);
 
-            
+
             for (var i = 0; i < items.Count; i++)
             {
-                _repositoryCountryLanguageLine.Add(new CountryLanguageLine
+                foreach (var language in _repositoryLanguage.Get().Where(x => x.IsApproved).OrderBy(x => x.DisplayOrder))
                 {
-                    Id = Guid.NewGuid(),
-                    Country = items[i],
-                    Language = language,
-                    CountryName = dataList[i].CountryName,
-                    CreateDate = DateTime.Now,
-                    CreatedBy = user,
-                    UpdateDate = DateTime.Now,
-                    UpdatedBy = user
-                });
+                    _repositoryCountryLanguageLine.Add(new CountryLanguageLine
+                    {
+                        Id = Guid.NewGuid(),
+                        Country = items[i],
+                        Language = language,
+                        CountryName = dataList[i].CountryName,
+                        CreateDate = DateTime.Now,
+                        CreatedBy = user,
+                        UpdateDate = DateTime.Now,
+                        UpdatedBy = user
+                    });
+                }
+
+
+
             }
             _repositoryCountryLanguageLine.SaveChanges();
 

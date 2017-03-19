@@ -73,22 +73,27 @@ namespace DomurTech.ERP.UI.Web.Installation.Infrastructure.Installlers
             _repositoryDistrictHistory.SaveChanges();
 
             var user = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1);
-            var language = _repositoryLanguage.Get().FirstOrDefault(x => x.DisplayOrder == 1);
 
            
             for (var i = 0; i < items.Count; i++)
             {
-                _repositoryDistrictLanguageLine.Add(new DistrictLanguageLine
+
+                foreach (var language in _repositoryLanguage.Get().Where(x => x.IsApproved).OrderBy(x => x.DisplayOrder))
                 {
-                    Id = Guid.NewGuid(),
-                    District = items[i],
-                    Language = language,
-                    DistrictName = dataList[i].DistrictName,
-                    CreateDate = DateTime.Now,
-                    CreatedBy = user,
-                    UpdateDate = DateTime.Now,
-                    UpdatedBy = user
-                });
+                    _repositoryDistrictLanguageLine.Add(new DistrictLanguageLine
+                    {
+                        Id = Guid.NewGuid(),
+                        District = items[i],
+                        Language = language,
+                        DistrictName = dataList[i].DistrictName,
+                        CreateDate = DateTime.Now,
+                        CreatedBy = user,
+                        UpdateDate = DateTime.Now,
+                        UpdatedBy = user
+                    });
+                }
+
+                    
             }
             _repositoryDistrictLanguageLine.SaveChanges();
 

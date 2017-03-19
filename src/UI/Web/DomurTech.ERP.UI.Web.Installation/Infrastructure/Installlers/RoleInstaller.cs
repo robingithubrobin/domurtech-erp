@@ -65,22 +65,27 @@ namespace DomurTech.ERP.UI.Web.Installation.Infrastructure.Installlers
             _repositoryRoleHistory.SaveChanges();
 
             var user = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1);
-            var language = _repositoryLanguage.Get().FirstOrDefault(x => x.DisplayOrder == 1);
 
             for (var i = 0; i < items.Count; i++)
             {
-                _repositoryRoleLanguageLine.Add(new RoleLanguageLine
+
+                foreach (var language in _repositoryLanguage.Get().Where(x => x.IsApproved).OrderBy(x => x.DisplayOrder))
                 {
-                    Id = Guid.NewGuid(),
-                    Role = items[i],
-                    Language = language,
-                    RoleName = dataList[i].RoleName,
-                    RoleDescription = dataList[i] + " bilgisi",
-                    CreateDate = DateTime.Now,
-                    CreatedBy = user,
-                    UpdateDate = DateTime.Now,
-                    UpdatedBy = user
-                });
+                    _repositoryRoleLanguageLine.Add(new RoleLanguageLine
+                    {
+                        Id = Guid.NewGuid(),
+                        Role = items[i],
+                        Language = language,
+                        RoleName = dataList[i].RoleName,
+                        RoleDescription = dataList[i] + " "+ language.LanguageCode+" bilgisi",
+                        CreateDate = DateTime.Now,
+                        CreatedBy = user,
+                        UpdateDate = DateTime.Now,
+                        UpdatedBy = user
+                    });
+                }
+
+                    
             }
             _repositoryRoleLanguageLine.SaveChanges();
 
