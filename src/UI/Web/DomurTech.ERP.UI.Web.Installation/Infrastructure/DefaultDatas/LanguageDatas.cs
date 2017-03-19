@@ -7,7 +7,8 @@ namespace DomurTech.ERP.UI.Web.Installation.Infrastructure.DefaultDatas
     {
         public List<Language> Languages = new List<Language>
         {
-            new Language {LanguageCode = "tr-TR", LanguageName = "Türkçe"}
+            new Language {LanguageCode = "tr-TR", LanguageName = "Türkçe"},
+             new Language {LanguageCode = "en-US", LanguageName = "English"}
         };
     }
 }

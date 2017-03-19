@@ -393,6 +393,7 @@
     <Content Include="Views\Account\UpdateMyPassword.cshtml" />
     <Content Include="Views\Account\UserSidebar.cshtml" />
     <Content Include="Views\Redirection\Redirect.cshtml" />
+    <None Include="Properties\PublishProfiles\publish.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

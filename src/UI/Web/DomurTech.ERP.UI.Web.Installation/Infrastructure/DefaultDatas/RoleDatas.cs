@@ -12,7 +12,7 @@ namespace DomurTech.ERP.UI.Web.Installation.Infrastructure.DefaultDatas
             new RoleLanguageLine {Role = new Role {RoleCode = "EDITOR"}, RoleName = "Editör"},
             new RoleLanguageLine {Role = new Role {RoleCode = "AUTHOR"}, RoleName = "Yazar"},
             new RoleLanguageLine {Role = new Role {RoleCode = "SUBSCRIBER"}, RoleName = "Abone"},
-            new RoleLanguageLine {Role = new Role {RoleCode = "GUEST"}, RoleName = "Misafirs"},
+            new RoleLanguageLine {Role = new Role {RoleCode = "GUEST"}, RoleName = "Misafir"},
         };
     }
 }
