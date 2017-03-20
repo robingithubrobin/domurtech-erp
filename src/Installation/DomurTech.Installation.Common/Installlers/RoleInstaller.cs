@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using DomurTech.ERP.Data.Access.Abstract;
 using DomurTech.ERP.Data.Entities.Concrete;
 using DomurTech.Installation.Common.DefaultDatas;
@@ -26,85 +27,107 @@ namespace DomurTech.Installation.Common.Installlers
             
         }
 
-        public void Set()
+        public string Set()
         {
-            var dataList = new RoleDatas().RoleLanguageLines;
-
-            for (var i = 0; i < dataList.Count; i++)
+            var result = string.Empty;
+            var thread = new Thread(() =>
             {
-                _repositoryRole.Add(new Role
+                var dataList = new RoleDatas().RoleLanguageLines;
+                int displayOrder;
+                var totalCount = 0;
+                totalCount = dataList.Count;
+                for (var i = 0; i < dataList.Count; i++)
                 {
-                    Id = Guid.NewGuid(),
-                    RoleCode = dataList[i].Role.RoleCode,
-                    DisplayOrder = i + 1,
-                    IsApproved = true,
-                    CreateDate = DateTime.Now,
-                    UpdateDate = DateTime.Now,
-                    CreatedBy = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1),
-                    UpdatedBy = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1)
-                });
-            }
-            _repositoryRole.SaveChanges();
-            var items = _repositoryRole.Get().ToList();
-            foreach (var item in items)
-            {
-                _repositoryRoleHistory.Add(new RoleHistory
-                {
-                    Id = Guid.NewGuid(),
-                    RoleId = item.Id,
-                    RoleCode = item.RoleCode,
-                    DisplayOrder = item.DisplayOrder,
-                    IsApproved = item.IsApproved,
-                    CreateDate = DateTime.Now,
-                    CreatedBy = item.CreatedBy.Id,
-                    VersionNo = 1,
-                    RestoreVersionNo = 0,
-                    IsDeleted = false
-                });
-            }
-            _repositoryRoleHistory.SaveChanges();
-
-            var user = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1);
-
-            for (var i = 0; i < items.Count; i++)
-            {
-
-                foreach (var language in _repositoryLanguage.Get().Where(x => x.IsApproved).OrderBy(x => x.DisplayOrder))
-                {
-                    _repositoryRoleLanguageLine.Add(new RoleLanguageLine
+                    displayOrder = i + 1;
+                    _repositoryRole.Add(new Role
                     {
                         Id = Guid.NewGuid(),
-                        Role = items[i],
-                        Language = language,
-                        RoleName = dataList[i].RoleName,
-                        RoleDescription = dataList[i] + " "+ language.LanguageCode+" bilgisi",
+                        RoleCode = dataList[i].Role.RoleCode,
+                        DisplayOrder = displayOrder,
+                        IsApproved = true,
                         CreateDate = DateTime.Now,
-                        CreatedBy = user,
                         UpdateDate = DateTime.Now,
-                        UpdatedBy = user
+                        CreatedBy = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1),
+                        UpdatedBy = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1)
                     });
+                    result += "İşlem " + displayOrder + " / " + totalCount+" "+ dataList[i].Role.RoleCode;
                 }
-
-                    
-            }
-            _repositoryRoleLanguageLine.SaveChanges();
-
-            foreach (var itemLanguageLine in _repositoryRoleLanguageLine.Get().ToList())
-            {
-                _repositoryRoleLanguageLineHistory.Add(new RoleLanguageLineHistory
+                _repositoryRole.SaveChanges();
+                var items = _repositoryRole.Get().ToList();
+                totalCount = items.Count;
+                foreach (var item in items)
                 {
-                    Id = Guid.NewGuid(),
-                    RoleLanguageLineId = itemLanguageLine.Id,
-                    RoleId = itemLanguageLine.Role.Id,
-                    LanguageId = itemLanguageLine.Language.Id,
-                    CreateDate = DateTime.Now,
-                    CreatedBy = itemLanguageLine.CreatedBy.Id,
-                    VersionNo = 1,
-                    RestoreVersionNo = 0,
-                    IsDeleted = false
-                });
-            }
-            _repositoryRoleLanguageLineHistory.SaveChanges();
+                    displayOrder = item.DisplayOrder;
+                    _repositoryRoleHistory.Add(new RoleHistory
+                    {
+                        Id = Guid.NewGuid(),
+                        RoleId = item.Id,
+                        RoleCode = item.RoleCode,
+                        DisplayOrder = item.DisplayOrder,
+                        IsApproved = item.IsApproved,
+                        CreateDate = DateTime.Now,
+                        CreatedBy = item.CreatedBy.Id,
+                        VersionNo = 1,
+                        RestoreVersionNo = 0,
+                        IsDeleted = false
+                    });
+                    result += "İşlem " + displayOrder + " / " + totalCount + " " + item.RoleCode;
+                }
+                _repositoryRoleHistory.SaveChanges();
+
+                var user = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1);
+
+                totalCount = items.Count* _repositoryLanguage.Get().Count(x => x.IsApproved);
+                displayOrder = 1;
+                for (var i = 0; i < items.Count; i++)
+                {
+                    foreach (var language in _repositoryLanguage.Get().Where(x => x.IsApproved).OrderBy(x => x.DisplayOrder))
+                    {
+                        _repositoryRoleLanguageLine.Add(new RoleLanguageLine
+                        {
+                            Id = Guid.NewGuid(),
+                            Role = items[i],
+                            Language = language,
+                            RoleName = dataList[i].RoleName,
+                            RoleDescription = dataList[i] + " " + language.LanguageCode + " bilgisi",
+                            CreateDate = DateTime.Now,
+                            CreatedBy = user,
+                            UpdateDate = DateTime.Now,
+                            UpdatedBy = user
+                        });                       
+                        result += "İşlem " + displayOrder + " / " + totalCount + " " + dataList[i].RoleName;
+                        displayOrder++;
+                    }
+
+
+                }
+                _repositoryRoleLanguageLine.SaveChanges();
+
+                totalCount = items.Count * _repositoryRoleLanguageLine.Get().Count();
+                displayOrder = 1;
+                foreach (var itemLanguageLine in _repositoryRoleLanguageLine.Get().ToList())
+                {
+                    _repositoryRoleLanguageLineHistory.Add(new RoleLanguageLineHistory
+                    {
+                        Id = Guid.NewGuid(),
+                        RoleLanguageLineId = itemLanguageLine.Id,
+                        RoleId = itemLanguageLine.Role.Id,
+                        LanguageId = itemLanguageLine.Language.Id,
+                        CreateDate = DateTime.Now,
+                        CreatedBy = itemLanguageLine.CreatedBy.Id,
+                        VersionNo = 1,
+                        RestoreVersionNo = 0,
+                        IsDeleted = false
+                    });                   
+                    result += "İşlem " + displayOrder + " / " + totalCount + " " + itemLanguageLine.Id+"-"+ itemLanguageLine.Role.Id;
+                    displayOrder++;
+                }
+                _repositoryRoleLanguageLineHistory.SaveChanges();
+            });
+            thread.Start();
+            return result;
+
+            
         }
     }
 }
