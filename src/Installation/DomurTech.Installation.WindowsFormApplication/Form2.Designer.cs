@@ -66,17 +66,10 @@
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(738, 210);
-            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Veritabanına Bağlan";
-            // 
-            // labelMessage
-            // 
-            this.labelMessage.AutoSize = true;
-            this.labelMessage.Location = new System.Drawing.Point(12, 229);
-            this.labelMessage.Name = "labelMessage";
-            this.labelMessage.Size = new System.Drawing.Size(0, 13);
-            this.labelMessage.TabIndex = 3;
+          
            
             // 
             // buttonBack
@@ -95,7 +88,7 @@
             this.labelErrorPassword.Location = new System.Drawing.Point(502, 123);
             this.labelErrorPassword.Name = "labelErrorPassword";
             this.labelErrorPassword.Size = new System.Drawing.Size(0, 13);
-            this.labelErrorPassword.TabIndex = 14;
+            this.labelErrorPassword.TabIndex = 13;
             // 
             // labelErrorUserId
             // 
@@ -103,7 +96,7 @@
             this.labelErrorUserId.Location = new System.Drawing.Point(502, 97);
             this.labelErrorUserId.Name = "labelErrorUserId";
             this.labelErrorUserId.Size = new System.Drawing.Size(0, 13);
-            this.labelErrorUserId.TabIndex = 13;
+            this.labelErrorUserId.TabIndex = 12;
             // 
             // labelErrorInitialCatalog
             // 
@@ -111,7 +104,7 @@
             this.labelErrorInitialCatalog.Location = new System.Drawing.Point(503, 71);
             this.labelErrorInitialCatalog.Name = "labelErrorInitialCatalog";
             this.labelErrorInitialCatalog.Size = new System.Drawing.Size(0, 13);
-            this.labelErrorInitialCatalog.TabIndex = 12;
+            this.labelErrorInitialCatalog.TabIndex = 11;
             // 
             // labelErrorDataSource
             // 
@@ -119,14 +112,14 @@
             this.labelErrorDataSource.Location = new System.Drawing.Point(503, 45);
             this.labelErrorDataSource.Name = "labelErrorDataSource";
             this.labelErrorDataSource.Size = new System.Drawing.Size(0, 13);
-            this.labelErrorDataSource.TabIndex = 11;
+            this.labelErrorDataSource.TabIndex = 10;
             // 
             // buttonNext
             // 
             this.buttonNext.Location = new System.Drawing.Point(420, 147);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(75, 23);
-            this.buttonNext.TabIndex = 10;
+            this.buttonNext.TabIndex = 9;
             this.buttonNext.Text = "İleri";
             this.buttonNext.UseVisualStyleBackColor = true;
             this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
@@ -137,7 +130,7 @@
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.ReadOnly = true;
             this.textBoxPassword.Size = new System.Drawing.Size(389, 20);
-            this.textBoxPassword.TabIndex = 9;
+            this.textBoxPassword.TabIndex = 8;
             // 
             // labelPassword
             // 
@@ -145,25 +138,9 @@
             this.labelPassword.Location = new System.Drawing.Point(28, 123);
             this.labelPassword.Name = "labelPassword";
             this.labelPassword.Size = new System.Drawing.Size(28, 13);
-            this.labelPassword.TabIndex = 8;
+            this.labelPassword.TabIndex = 7;
             this.labelPassword.Text = "Şifre";
-            // 
-            // textBoxInitialCatalog
-            // 
-            this.textBoxInitialCatalog.Location = new System.Drawing.Point(107, 68);
-            this.textBoxInitialCatalog.Name = "textBoxInitialCatalog";
-            this.textBoxInitialCatalog.ReadOnly = true;
-            this.textBoxInitialCatalog.Size = new System.Drawing.Size(389, 20);
-            this.textBoxInitialCatalog.TabIndex = 7;
-            // 
-            // labelInitialCatalog
-            // 
-            this.labelInitialCatalog.AutoSize = true;
-            this.labelInitialCatalog.Location = new System.Drawing.Point(28, 71);
-            this.labelInitialCatalog.Name = "labelInitialCatalog";
-            this.labelInitialCatalog.Size = new System.Drawing.Size(54, 13);
-            this.labelInitialCatalog.TabIndex = 6;
-            this.labelInitialCatalog.Text = "Veritabanı";
+           
             // 
             // textBoxUserId
             // 
@@ -171,7 +148,7 @@
             this.textBoxUserId.Name = "textBoxUserId";
             this.textBoxUserId.ReadOnly = true;
             this.textBoxUserId.Size = new System.Drawing.Size(389, 20);
-            this.textBoxUserId.TabIndex = 3;
+            this.textBoxUserId.TabIndex = 6;
             // 
             // labelUserId
             // 
@@ -179,8 +156,25 @@
             this.labelUserId.Location = new System.Drawing.Point(28, 97);
             this.labelUserId.Name = "labelUserId";
             this.labelUserId.Size = new System.Drawing.Size(64, 13);
-            this.labelUserId.TabIndex = 2;
+            this.labelUserId.TabIndex = 5;
             this.labelUserId.Text = "Kullanıcı Adı";
+            // 
+            // textBoxInitialCatalog
+            // 
+            this.textBoxInitialCatalog.Location = new System.Drawing.Point(107, 68);
+            this.textBoxInitialCatalog.Name = "textBoxInitialCatalog";
+            this.textBoxInitialCatalog.ReadOnly = true;
+            this.textBoxInitialCatalog.Size = new System.Drawing.Size(389, 20);
+            this.textBoxInitialCatalog.TabIndex = 4;
+            // 
+            // labelInitialCatalog
+            // 
+            this.labelInitialCatalog.AutoSize = true;
+            this.labelInitialCatalog.Location = new System.Drawing.Point(28, 71);
+            this.labelInitialCatalog.Name = "labelInitialCatalog";
+            this.labelInitialCatalog.Size = new System.Drawing.Size(54, 13);
+            this.labelInitialCatalog.TabIndex = 3;
+            this.labelInitialCatalog.Text = "Veritabanı";
             // 
             // textBoxDataSource
             // 
@@ -188,7 +182,7 @@
             this.textBoxDataSource.Name = "textBoxDataSource";
             this.textBoxDataSource.ReadOnly = true;
             this.textBoxDataSource.Size = new System.Drawing.Size(389, 20);
-            this.textBoxDataSource.TabIndex = 1;
+            this.textBoxDataSource.TabIndex = 2;
             // 
             // labelDataSource
             // 
@@ -196,8 +190,18 @@
             this.labelDataSource.Location = new System.Drawing.Point(28, 45);
             this.labelDataSource.Name = "labelDataSource";
             this.labelDataSource.Size = new System.Drawing.Size(44, 13);
-            this.labelDataSource.TabIndex = 0;
+            this.labelDataSource.TabIndex = 1;
             this.labelDataSource.Text = "Sunucu";
+
+            // 
+            // labelMessage
+            // 
+            this.labelMessage.AutoSize = true;
+            this.labelMessage.Location = new System.Drawing.Point(12, 229);
+            this.labelMessage.Name = "labelMessage";
+            this.labelMessage.Size = new System.Drawing.Size(0, 13);
+            this.labelMessage.TabIndex = 0;
+
             // 
             // Form2
             // 

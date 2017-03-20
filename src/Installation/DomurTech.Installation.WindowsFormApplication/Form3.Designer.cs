@@ -54,14 +54,7 @@ namespace DomurTech.Installation.WindowsFormApplication
             this.labelFirstName = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // labelMessage
-            // 
-            this.labelMessage.AutoSize = true;
-            this.labelMessage.Location = new System.Drawing.Point(15, 261);
-            this.labelMessage.Name = "labelMessage";
-            this.labelMessage.Size = new System.Drawing.Size(0, 13);
-            this.labelMessage.TabIndex = 3;
+            
             // 
             // groupBox1
             // 
@@ -88,19 +81,10 @@ namespace DomurTech.Installation.WindowsFormApplication
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(738, 240);
-            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Yönetici Bilgileri";
-            // 
-            // buttonBack
-            // 
-            this.buttonBack.Location = new System.Drawing.Point(107, 198);
-            this.buttonBack.Name = "buttonBack";
-            this.buttonBack.Size = new System.Drawing.Size(75, 23);
-            this.buttonBack.TabIndex = 21;
-            this.buttonBack.Text = "Geri";
-            this.buttonBack.UseVisualStyleBackColor = true;
-            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
+           
             // 
             // labelErrorEmail
             // 
@@ -109,22 +93,7 @@ namespace DomurTech.Installation.WindowsFormApplication
             this.labelErrorEmail.Name = "labelErrorEmail";
             this.labelErrorEmail.Size = new System.Drawing.Size(0, 13);
             this.labelErrorEmail.TabIndex = 20;
-            // 
-            // textBoxEmail
-            // 
-            this.textBoxEmail.Location = new System.Drawing.Point(107, 172);
-            this.textBoxEmail.Name = "textBoxEmail";
-            this.textBoxEmail.Size = new System.Drawing.Size(389, 20);
-            this.textBoxEmail.TabIndex = 19;
-            // 
-            // labelEmail
-            // 
-            this.labelEmail.AutoSize = true;
-            this.labelEmail.Location = new System.Drawing.Point(28, 175);
-            this.labelEmail.Name = "labelEmail";
-            this.labelEmail.Size = new System.Drawing.Size(32, 13);
-            this.labelEmail.TabIndex = 18;
-            this.labelEmail.Text = "Email";
+          
             // 
             // labelErrorConfirmPassword
             // 
@@ -132,23 +101,8 @@ namespace DomurTech.Installation.WindowsFormApplication
             this.labelErrorConfirmPassword.Location = new System.Drawing.Point(502, 149);
             this.labelErrorConfirmPassword.Name = "labelErrorConfirmPassword";
             this.labelErrorConfirmPassword.Size = new System.Drawing.Size(0, 13);
-            this.labelErrorConfirmPassword.TabIndex = 17;
-            // 
-            // textBoxConfirmPassword
-            // 
-            this.textBoxConfirmPassword.Location = new System.Drawing.Point(107, 146);
-            this.textBoxConfirmPassword.Name = "textBoxConfirmPassword";
-            this.textBoxConfirmPassword.Size = new System.Drawing.Size(389, 20);
-            this.textBoxConfirmPassword.TabIndex = 16;
-            // 
-            // labelConfirmPassword
-            // 
-            this.labelConfirmPassword.AutoSize = true;
-            this.labelConfirmPassword.Location = new System.Drawing.Point(28, 149);
-            this.labelConfirmPassword.Name = "labelConfirmPassword";
-            this.labelConfirmPassword.Size = new System.Drawing.Size(64, 13);
-            this.labelConfirmPassword.TabIndex = 15;
-            this.labelConfirmPassword.Text = "Şifre Tekrarı";
+            this.labelErrorConfirmPassword.TabIndex = 19;
+
             // 
             // labelErrorPassword
             // 
@@ -156,7 +110,7 @@ namespace DomurTech.Installation.WindowsFormApplication
             this.labelErrorPassword.Location = new System.Drawing.Point(502, 123);
             this.labelErrorPassword.Name = "labelErrorPassword";
             this.labelErrorPassword.Size = new System.Drawing.Size(0, 13);
-            this.labelErrorPassword.TabIndex = 14;
+            this.labelErrorPassword.TabIndex = 18;
             // 
             // labelErrorUsername
             // 
@@ -164,7 +118,7 @@ namespace DomurTech.Installation.WindowsFormApplication
             this.labelErrorUsername.Location = new System.Drawing.Point(502, 97);
             this.labelErrorUsername.Name = "labelErrorUsername";
             this.labelErrorUsername.Size = new System.Drawing.Size(0, 13);
-            this.labelErrorUsername.TabIndex = 13;
+            this.labelErrorUsername.TabIndex = 17;
             // 
             // labelErrorLastName
             // 
@@ -172,7 +126,7 @@ namespace DomurTech.Installation.WindowsFormApplication
             this.labelErrorLastName.Location = new System.Drawing.Point(503, 71);
             this.labelErrorLastName.Name = "labelErrorLastName";
             this.labelErrorLastName.Size = new System.Drawing.Size(0, 13);
-            this.labelErrorLastName.TabIndex = 12;
+            this.labelErrorLastName.TabIndex = 16;
             // 
             // labelErrorFirstName
             // 
@@ -180,24 +134,68 @@ namespace DomurTech.Installation.WindowsFormApplication
             this.labelErrorFirstName.Location = new System.Drawing.Point(503, 45);
             this.labelErrorFirstName.Name = "labelErrorFirstName";
             this.labelErrorFirstName.Size = new System.Drawing.Size(0, 13);
-            this.labelErrorFirstName.TabIndex = 11;
+            this.labelErrorFirstName.TabIndex = 15;
+            // 
+            // buttonBack
+            // 
+            this.buttonBack.Location = new System.Drawing.Point(107, 198);
+            this.buttonBack.Name = "buttonBack";
+            this.buttonBack.Size = new System.Drawing.Size(75, 23);
+            this.buttonBack.TabIndex = 14;
+            this.buttonBack.Text = "Geri";
+            this.buttonBack.UseVisualStyleBackColor = true;
+            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
             // buttonNext
             // 
             this.buttonNext.Location = new System.Drawing.Point(421, 198);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(75, 23);
-            this.buttonNext.TabIndex = 10;
+            this.buttonNext.TabIndex = 13;
             this.buttonNext.Text = "İleri";
             this.buttonNext.UseVisualStyleBackColor = true;
             this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
+            // 
+            // textBoxEmail
+            // 
+            this.textBoxEmail.Location = new System.Drawing.Point(107, 172);
+            this.textBoxEmail.Name = "textBoxEmail";
+            this.textBoxEmail.Size = new System.Drawing.Size(389, 20);
+            this.textBoxEmail.TabIndex = 12;
+            // 
+            // labelEmail
+            // 
+            this.labelEmail.AutoSize = true;
+            this.labelEmail.Location = new System.Drawing.Point(28, 175);
+            this.labelEmail.Name = "labelEmail";
+            this.labelEmail.Size = new System.Drawing.Size(32, 13);
+            this.labelEmail.TabIndex = 11;
+            this.labelEmail.Text = "Email";
+            // 
+            // textBoxConfirmPassword
+            // 
+            this.textBoxConfirmPassword.Location = new System.Drawing.Point(107, 146);
+            this.textBoxConfirmPassword.Name = "textBoxConfirmPassword";
+            this.textBoxConfirmPassword.Size = new System.Drawing.Size(389, 20);
+            this.textBoxConfirmPassword.TabIndex = 10;
+            // 
+            // labelConfirmPassword
+            // 
+            this.labelConfirmPassword.AutoSize = true;
+            this.labelConfirmPassword.Location = new System.Drawing.Point(28, 149);
+            this.labelConfirmPassword.Name = "labelConfirmPassword";
+            this.labelConfirmPassword.Size = new System.Drawing.Size(64, 13);
+            this.labelConfirmPassword.TabIndex = 9;
+            this.labelConfirmPassword.Text = "Şifre Tekrarı";
+
+
             // 
             // textBoxPassword
             // 
             this.textBoxPassword.Location = new System.Drawing.Point(107, 120);
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.Size = new System.Drawing.Size(389, 20);
-            this.textBoxPassword.TabIndex = 9;
+            this.textBoxPassword.TabIndex = 8;
             // 
             // labelPassword
             // 
@@ -205,31 +203,17 @@ namespace DomurTech.Installation.WindowsFormApplication
             this.labelPassword.Location = new System.Drawing.Point(28, 123);
             this.labelPassword.Name = "labelPassword";
             this.labelPassword.Size = new System.Drawing.Size(28, 13);
-            this.labelPassword.TabIndex = 8;
+            this.labelPassword.TabIndex = 7;
             this.labelPassword.Text = "Şifre";
-            // 
-            // textBoxLastName
-            // 
-            this.textBoxLastName.Location = new System.Drawing.Point(107, 68);
-            this.textBoxLastName.Name = "textBoxLastName";
-            this.textBoxLastName.Size = new System.Drawing.Size(389, 20);
-            this.textBoxLastName.TabIndex = 7;
-            // 
-            // labelLastName
-            // 
-            this.labelLastName.AutoSize = true;
-            this.labelLastName.Location = new System.Drawing.Point(28, 71);
-            this.labelLastName.Name = "labelLastName";
-            this.labelLastName.Size = new System.Drawing.Size(39, 13);
-            this.labelLastName.TabIndex = 6;
-            this.labelLastName.Text = "Soyadı";
+           
+           
             // 
             // textBoxUsername
             // 
             this.textBoxUsername.Location = new System.Drawing.Point(107, 94);
             this.textBoxUsername.Name = "textBoxUsername";
             this.textBoxUsername.Size = new System.Drawing.Size(389, 20);
-            this.textBoxUsername.TabIndex = 3;
+            this.textBoxUsername.TabIndex = 6;
             // 
             // labelUsername
             // 
@@ -237,15 +221,31 @@ namespace DomurTech.Installation.WindowsFormApplication
             this.labelUsername.Location = new System.Drawing.Point(28, 97);
             this.labelUsername.Name = "labelUsername";
             this.labelUsername.Size = new System.Drawing.Size(64, 13);
-            this.labelUsername.TabIndex = 2;
+            this.labelUsername.TabIndex = 5;
             this.labelUsername.Text = "Kullanıcı Adı";
+            // 
+            // textBoxLastName
+            // 
+            this.textBoxLastName.Location = new System.Drawing.Point(107, 68);
+            this.textBoxLastName.Name = "textBoxLastName";
+            this.textBoxLastName.Size = new System.Drawing.Size(389, 20);
+            this.textBoxLastName.TabIndex = 4;
+            // 
+            // labelLastName
+            // 
+            this.labelLastName.AutoSize = true;
+            this.labelLastName.Location = new System.Drawing.Point(28, 71);
+            this.labelLastName.Name = "labelLastName";
+            this.labelLastName.Size = new System.Drawing.Size(39, 13);
+            this.labelLastName.TabIndex = 3;
+            this.labelLastName.Text = "Soyadı";
             // 
             // textBoxFirstName
             // 
             this.textBoxFirstName.Location = new System.Drawing.Point(107, 42);
             this.textBoxFirstName.Name = "textBoxFirstName";
             this.textBoxFirstName.Size = new System.Drawing.Size(389, 20);
-            this.textBoxFirstName.TabIndex = 1;
+            this.textBoxFirstName.TabIndex = 2;
             // 
             // labelFirstName
             // 
@@ -253,8 +253,17 @@ namespace DomurTech.Installation.WindowsFormApplication
             this.labelFirstName.Location = new System.Drawing.Point(28, 45);
             this.labelFirstName.Name = "labelFirstName";
             this.labelFirstName.Size = new System.Drawing.Size(20, 13);
-            this.labelFirstName.TabIndex = 0;
+            this.labelFirstName.TabIndex = 1;
             this.labelFirstName.Text = "Ad";
+            // 
+            // labelMessage
+            // 
+            this.labelMessage.AutoSize = true;
+            this.labelMessage.Location = new System.Drawing.Point(15, 261);
+            this.labelMessage.Name = "labelMessage";
+            this.labelMessage.Size = new System.Drawing.Size(0, 13);
+            this.labelMessage.TabIndex = 0;
+
             // 
             // Form3
             // 

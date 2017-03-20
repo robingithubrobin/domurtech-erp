@@ -31,18 +31,6 @@ namespace DomurTech.Installation.Common.Installlers
 
         public void Set(AdminModel model)
         {
-            var person = new Person
-            {
-                Id = Guid.NewGuid(),
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                TcKimlikNo = "12345678901",
-                BirthDate = DateTime.Now.AddYears(-35),
-                DisplayOrder = 1,
-                IsApproved = true,
-                CreateDate = DateTime.Now,
-                UpdateDate = DateTime.Now
-            };
 
             var user = new User
             {
@@ -53,39 +41,56 @@ namespace DomurTech.Installation.Common.Installlers
                 DisplayOrder = 1,
                 IsApproved = true,
                 CreateDate = DateTime.Now,
-                UpdateDate = DateTime.Now
+                UpdateDate = DateTime.Now,
             };
-
-            person.CreatedBy = user;
-            person.UpdatedBy = user;
-
-            var addedPerson = _repositoryPerson.Add(person);
-            _repositoryPerson.SaveChanges();
-
-
-            _repositoryPersonHistory.Add(new PersonHistory
-            {
-                Id = Guid.NewGuid(),
-                PersonId = addedPerson.Id,
-                FirstName = addedPerson.FirstName,
-                LastName = addedPerson.LastName,
-                DisplayOrder = addedPerson.DisplayOrder,
-                IsApproved = addedPerson.IsApproved,
-                CreateDate = addedPerson.CreateDate,
-                CreatedBy = addedPerson.CreatedBy.Id,
-                VersionNo = 1,
-                RestoreVersionNo = 0,
-                IsDeleted = false
-            });
-
-
             user.CreatedBy = user;
             user.UpdatedBy = user;
-            user.Person = addedPerson;
             user.Language = _repositoryLanguage.Get().FirstOrDefault(x => x.DisplayOrder == 1);
 
+            user.Person = new Person
+            {
+                Id = Guid.NewGuid(),
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                TcKimlikNo = "12345678901",
+                BirthDate = DateTime.Now.AddYears(-35),
+                DisplayOrder = 1,
+                IsApproved = true,
+                CreateDate = DateTime.Now,
+                UpdateDate = DateTime.Now,
+                CreatedBy = user,
+                UpdatedBy = user
+            }; 
             var addedUser = _repositoryUser.Add(user);
+
             _repositoryUser.SaveChanges();
+
+          //  person.CreatedBy = user;
+           // person.UpdatedBy = user;
+
+            //var addedPerson = _repositoryPerson.Add(person);
+            //_repositoryPerson.SaveChanges();
+
+           
+            
+
+           
+
+            //_repositoryPersonHistory.Add(new PersonHistory
+            //{
+            //    Id = Guid.NewGuid(),
+            //    PersonId = addedPerson.Id,
+            //    FirstName = addedPerson.FirstName,
+            //    LastName = addedPerson.LastName,
+            //    DisplayOrder = addedPerson.DisplayOrder,
+            //    IsApproved = addedPerson.IsApproved,
+            //    CreateDate = addedPerson.CreateDate,
+            //    CreatedBy = addedPerson.CreatedBy.Id,
+            //    VersionNo = 1,
+            //    RestoreVersionNo = 0,
+            //    IsDeleted = false
+            //});
+
 
             _repositoryUserHistory.Add(new UserHistory
             {
