@@ -11,9 +11,6 @@ namespace DomurTech.ERP.Data.Entities.Concrete
         public int DisplayOrder { get; set; }
         public bool IsApproved { get; set; }
         public DateTime CreateDate { get; set; }
-        public DateTime UpdateDate { get; set; }
-        public virtual User CreatedBy { get; set; }
-        public virtual User UpdatedBy { get; set; }
         public virtual Country Country { get; set; }
         public virtual IList<CityLanguageLine> CityLanguageLines { get; set; }
         public virtual IList<District> Districts { get; set; }

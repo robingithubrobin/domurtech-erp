@@ -57,7 +57,7 @@ namespace DomurTech.Installation.WindowsFormApplication
 
                 using (var context = new InstallationDatabaseContext())
                 {
-                    _userInstaller = new UserInstaller(new Repository<User>(context), new Repository<Language>(context), new Repository<UserHistory>(context), new Repository<Person>(context), new Repository<PersonHistory>(context));
+                    _userInstaller = new UserInstaller(new Repository<User>(context));
 
 
 
@@ -77,13 +77,13 @@ namespace DomurTech.Installation.WindowsFormApplication
                     _roleInstaller = new RoleInstaller(new Repository<Role>(context), new Repository<RoleHistory>(context), new Repository<RoleLanguageLine>(context), new Repository<RoleLanguageLineHistory>(context), new Repository<Language>(context), new Repository<User>(context));
                     message += _roleInstaller.Set();
 
-                    _roleUserLineInstaller = new RoleUserLineInstaller(new Repository<RoleUserLine>(context), new Repository<RoleUserLineHistory>(context), new Repository<Role>(context), new Repository<User>(context));
+                    _roleUserLineInstaller = new RoleUserLineInstaller(new Repository<User>(context));
                     _roleUserLineInstaller.Set();
 
-                    _actionInstaller = new ActionInstaller(new Repository<ERP.Data.Entities.Concrete.Action>(context));
+                    _actionInstaller = new ActionInstaller();
                     _actionInstaller.Set();
 
-                    _applicationSettingInstaller = new ApplicationSettingInstaller(new Repository<ApplicationSetting>(context), new Repository<ApplicationSettingHistory>(context), new Repository<User>(context));
+                    _applicationSettingInstaller = new ApplicationSettingInstaller(new Repository<ApplicationSetting>(context));
                     _applicationSettingInstaller.Set();
 
                     model.Message = message;

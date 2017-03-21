@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using DomurTech.ERP.Data.Access.Abstract;
 using DomurTech.ERP.Data.Entities.Concrete;
 using DomurTech.Installation.Common.DefaultDatas;
@@ -21,29 +21,35 @@ namespace DomurTech.Installation.Common.Installlers
             return _repositoryLanguage.Get().Any();
         }
 
-        public string Set()
+        public Language Add(Language language)
         {
-            var result = string.Empty;
-            var thread = new Thread(() =>
+            var result=_repositoryLanguage.Add(language);
+            _repositoryLanguage.SaveChanges();
+            return result;
+        }
+
+        public Language GetFirst()
+        {
+            return _repositoryLanguage.Get().FirstOrDefault(x=>x.DisplayOrder==1);
+        }
+
+        public List<Language> GetList()
+        {
+            var result = new List<Language>();
+            var list = new LanguageDatas().Languages;
+            for (var i = 0; i < list.Count; i++)
             {
-                var list = new LanguageDatas().Languages;
-                var totalCount = list.Count;
-                for (var i = 0; i < list.Count; i++)
+                var displayOrder = i + 1;
+                result.Add(new Language
                 {
-                    var displayOrder = i + 1;
-                    _repositoryLanguage.Add(new Language
-                    {
-                        Id = Guid.NewGuid(),
-                        LanguageCode = list[i].LanguageCode,
-                        LanguageName = list[i].LanguageName,
-                        DisplayOrder = displayOrder,
-                        IsApproved = true
-                    });
-                    result += "İşlem " + displayOrder + " / " + totalCount + " "+ list[i].LanguageCode;
-                }
-                _repositoryLanguage.SaveChanges();
-            });
-            thread.Start();
+                    Id = Guid.NewGuid(),
+                    LanguageCode = list[i].LanguageCode,
+                    LanguageName = list[i].LanguageName,
+                    DisplayOrder = displayOrder,
+                    IsApproved = true
+                });
+
+            }
             return result;
         }
     }

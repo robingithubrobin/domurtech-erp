@@ -21,12 +21,9 @@ namespace DomurTech.ERP.Data.Access.EntityFramework.Configurations
             Property(x => x.Id).IsRequired();
 
             Property(x => x.CountryCode).IsRequired().HasColumnType("nvarchar").HasMaxLength(10).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("UK_CountryCode", 1) { IsUnique = true }));
-            Property(x => x.DisplayOrder).IsRequired();
+            Property(x => x.DisplayOrder).IsRequired().HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute()));
             Property(x => x.IsApproved).IsRequired();
             Property(x => x.CreateDate).IsRequired();
-            Property(x => x.UpdateDate).IsRequired();
-            HasRequired(x => x.CreatedBy).WithMany(y => y.CountriesCreatedBy).WillCascadeOnDelete(false);
-            HasRequired(x => x.UpdatedBy).WithMany(y => y.CountriesUpdatedBy).WillCascadeOnDelete(false);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DomurTech.ERP.Data.Access.Abstract;
 using DomurTech.ERP.Data.Entities.Concrete;
@@ -8,103 +9,88 @@ namespace DomurTech.Installation.Common.Installlers
 {
     public class CountryInstaller
     {
-        private readonly IRepository<Country> _repositoryCountry;
-        private readonly IRepository<CountryHistory> _repositoryCountryHistory;
-        private readonly IRepository<CountryLanguageLine> _repositoryCountryLanguageLine;
-        private readonly IRepository<CountryLanguageLineHistory> _repositoryCountryLanguageLineHistory;
-        private readonly IRepository<Language> _repositoryLanguage;
         private readonly IRepository<User> _repositoryUser;
 
-        public CountryInstaller(IRepository<Country> repositoryCountry, IRepository<CountryHistory> repositoryCountryHistory, IRepository<CountryLanguageLine> repositoryCountryLanguageLine, IRepository<CountryLanguageLineHistory> repositoryCountryLanguageLineHistory, IRepository<Language> repositoryLanguage, IRepository<User> repositoryUser)
+        public CountryInstaller(IRepository<User> repositoryUser)
         {
-            _repositoryCountry = repositoryCountry;
-            _repositoryCountryHistory = repositoryCountryHistory;
-            _repositoryCountryLanguageLine = repositoryCountryLanguageLine;
-            _repositoryCountryLanguageLineHistory = repositoryCountryLanguageLineHistory;
-            _repositoryLanguage = repositoryLanguage;
             _repositoryUser = repositoryUser;
-
         }
 
-        public void Set()
+        public List<Country> GetList()
         {
             var dataList = new CountryDatas().CountryLanguageLines;
-
-            for (var i = 0; i < dataList.Count; i++)
+            return dataList.Select((t, i) => new Country
             {
-                _repositoryCountry.Add(new Country
-                {
-                    Id = Guid.NewGuid(),
-                    CountryCode = dataList[i].Country.CountryCode,
-                    DisplayOrder = i + 1,
-                    IsApproved = true,
-                    CreateDate = DateTime.Now,
-                    UpdateDate = DateTime.Now,
-                    CreatedBy = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1),
-                    UpdatedBy = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1)
-                });
-            }
-            _repositoryCountry.SaveChanges();
-            var items = _repositoryCountry.Get().ToList();
-            foreach (var item in items)
-            {
-                _repositoryCountryHistory.Add(new CountryHistory
-                {
-                    Id = Guid.NewGuid(),
-                    CountryId = item.Id,
-                    CountryCode = item.CountryCode,
-                    DisplayOrder = item.DisplayOrder,
-                    IsApproved = item.IsApproved,
-                    CreateDate = DateTime.Now,
-                    CreatedBy = item.CreatedBy.Id,
-                    VersionNo = 1,
-                    RestoreVersionNo = 0,
-                    IsDeleted = false
-                });
-            }
-            _repositoryCountryHistory.SaveChanges();
+                Id = Guid.NewGuid(),
+                CountryCode = t.Country.CountryCode,
+                DisplayOrder = i + 1,
+                IsApproved = true,
+                CreateDate = DateTime.Now,
+            }).ToList();
+        }
 
+        public List<CountryHistory> GetList(List<Country> countries)
+        {
             var user = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1);
+            if (user == null)
+            {
+                return new List<CountryHistory>();
+            }
+            return countries.Select(item => new CountryHistory
+            {
+                Id = Guid.NewGuid(),
+                CountryId = item.Id,
+                CountryCode = item.CountryCode,
+                DisplayOrder = item.DisplayOrder,
+                IsApproved = item.IsApproved,
+                CreateDate = DateTime.Now,
+                CreatedBy = user.Id,
+                VersionNo = 1,
+                RestoreVersionNo = 0,
+                IsDeleted = false
+            }).ToList();
 
+        }
 
+        public List<CountryLanguageLine> GetList(List<Country> items, List<Language> languages)
+        {
+            var dataList = new CountryDatas().CountryLanguageLines;
+            var result = new List<CountryLanguageLine>();
             for (var i = 0; i < items.Count; i++)
             {
-                foreach (var language in _repositoryLanguage.Get().Where(x => x.IsApproved).OrderBy(x => x.DisplayOrder))
-                {
-                    _repositoryCountryLanguageLine.Add(new CountryLanguageLine
-                    {
-                        Id = Guid.NewGuid(),
-                        Country = items[i],
-                        Language = language,
-                        CountryName = dataList[i].CountryName,
-                        CreateDate = DateTime.Now,
-                        CreatedBy = user,
-                        UpdateDate = DateTime.Now,
-                        UpdatedBy = user
-                    });
-                }
-
-
-
-            }
-            _repositoryCountryLanguageLine.SaveChanges();
-
-            foreach (var itemLanguageLine in _repositoryCountryLanguageLine.Get().ToList())
-            {
-                _repositoryCountryLanguageLineHistory.Add(new CountryLanguageLineHistory
+                result.AddRange(languages.Select(language => new CountryLanguageLine
                 {
                     Id = Guid.NewGuid(),
-                    CountryLanguageLineId = itemLanguageLine.Id,
-                    CountryId = itemLanguageLine.Country.Id,
-                    LanguageId = itemLanguageLine.Language.Id,
-                    CreateDate = DateTime.Now,
-                    CreatedBy = itemLanguageLine.CreatedBy.Id,
-                    VersionNo = 1,
-                    RestoreVersionNo = 0,
-                    IsDeleted = false
-                });
+                    Country = items[i],
+                    Language = language,
+                    CountryName = dataList[i].CountryName,
+                    CreateDate = DateTime.Now
+                }));
             }
-            _repositoryCountryLanguageLineHistory.SaveChanges();
+
+            return result;
         }
+
+        public List<CountryLanguageLineHistory> GetList(List<CountryLanguageLine> itemLanguageLines)
+        {
+            var user = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1);
+            if (user == null)
+            {
+                return new List<CountryLanguageLineHistory>();
+            }
+            return itemLanguageLines.Select(itemLanguageLine => new CountryLanguageLineHistory
+            {
+                Id = Guid.NewGuid(),
+                CountryLanguageLineId = itemLanguageLine.Id,
+                CountryId = itemLanguageLine.Country.Id,
+                LanguageId = itemLanguageLine.Language.Id,
+                CreateDate = DateTime.Now,
+                CreatedBy = user.Id,
+                VersionNo = 1,
+                RestoreVersionNo = 0,
+                IsDeleted = false
+            }).ToList();
+        }
+
     }
 }

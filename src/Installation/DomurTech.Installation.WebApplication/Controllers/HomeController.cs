@@ -159,7 +159,7 @@ namespace DomurTech.Installation.WebApplication.Controllers
                 using (var context = new InstallationDatabaseContext())
                 {
 
-                    _userInstaller = new UserInstaller(new Repository<User>(context),new Repository<Language>(context),new Repository<UserHistory>(context),new Repository<Person>(context),new Repository<PersonHistory>(context) );
+                    _userInstaller = new UserInstaller(new Repository<User>(context) );
 
                     if (_userInstaller.Exists())
                     {
@@ -170,13 +170,13 @@ namespace DomurTech.Installation.WebApplication.Controllers
                     _roleInstaller = new RoleInstaller(new Repository<Role>(context), new Repository<RoleHistory>(context),new Repository<RoleLanguageLine>(context),new Repository<RoleLanguageLineHistory>(context),new Repository<Language>(context), new Repository<User>(context));
                     _roleInstaller.Set();
                     
-                    _roleUserLineInstaller = new RoleUserLineInstaller(new Repository<RoleUserLine>(context), new Repository<RoleUserLineHistory>(context), new Repository<Role>(context), new Repository<User>(context));
+                    _roleUserLineInstaller = new RoleUserLineInstaller(new Repository<User>(context));
                     _roleUserLineInstaller.Set();
 
-                    _actionInstaller = new ActionInstaller(new Repository<ERP.Data.Entities.Concrete.Action>(context));
+                    _actionInstaller = new ActionInstaller();
                     _actionInstaller.Set();
 
-                    _applicationSettingInstaller = new ApplicationSettingInstaller(new Repository<ApplicationSetting>(context),new Repository<ApplicationSettingHistory>(context),new Repository<User>(context));
+                    _applicationSettingInstaller = new ApplicationSettingInstaller(new Repository<ApplicationSetting>(context));
                     _applicationSettingInstaller.Set();
 
                     return RedirectToAction("Step4");
@@ -211,7 +211,7 @@ namespace DomurTech.Installation.WebApplication.Controllers
 
                 using (var context = new InstallationDatabaseContext())
                 {
-                    _applicationSettingInstaller = new ApplicationSettingInstaller(new Repository<ApplicationSetting>(context), new Repository<ApplicationSettingHistory>(context), new Repository<User>(context));
+                    _applicationSettingInstaller = new ApplicationSettingInstaller(new Repository<ApplicationSetting>(context));
 
                     model.ApplicationName = _applicationSettingInstaller.GetSetting("ApplicationName").SettingValue ?? "";
                     model.ApplicationUrl = _applicationSettingInstaller.GetSetting("ApplicationUrl").SettingValue ?? "";
@@ -256,7 +256,7 @@ namespace DomurTech.Installation.WebApplication.Controllers
                 using (var context = new InstallationDatabaseContext())
                 {
 
-                    _applicationSettingInstaller = new ApplicationSettingInstaller(new Repository<ApplicationSetting>(context), new Repository<ApplicationSettingHistory>(context), new Repository<User>(context));
+                    _applicationSettingInstaller = new ApplicationSettingInstaller(new Repository<ApplicationSetting>(context));
 
                     var applicationName = _applicationSettingInstaller.GetSetting("ApplicationName");
                     if (applicationName != null)
@@ -349,10 +349,10 @@ namespace DomurTech.Installation.WebApplication.Controllers
             {
                 using (var context = new InstallationDatabaseContext())
                 {
-                    _countryInstaller = new CountryInstaller(new Repository<Country>(context), new Repository<CountryHistory>(context), new Repository<CountryLanguageLine>(context), new Repository<CountryLanguageLineHistory>(context), new Repository<Language>(context), new Repository<User>(context));
+                    _countryInstaller = new CountryInstaller(new Repository<Country>(context), new Repository<CountryLanguageLine>(context), new Repository<CountryLanguageLineHistory>(context), new Repository<Language>(context), new Repository<User>(context));
                     _countryInstaller.Set();
 
-                    _cityInstaller = new CityInstaller(new Repository<City>(context), new Repository<CityHistory>(context), new Repository<CityLanguageLine>(context), new Repository<CityLanguageLineHistory>(context), new Repository<Language>(context), new Repository<User>(context), new Repository<Country>(context));
+                    _cityInstaller = new CityInstaller(new Repository<User>(context), new Repository<Country>(context));
                     _cityInstaller.Set();
 
 

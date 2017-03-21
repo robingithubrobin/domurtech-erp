@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
+using System.Linq;
 using DomurTech.ERP.Data.Access.Abstract;
 using DomurTech.ERP.Data.Entities.Concrete;
 using DomurTech.Installation.Common.DefaultDatas;
@@ -9,42 +9,26 @@ namespace DomurTech.Installation.Common.Installlers
     public class ActionInstaller
     {
         private readonly IRepository<Action> _repositoryAction;
-
         public ActionInstaller(IRepository<Action> repositoryAction)
         {
             _repositoryAction = repositoryAction;
         }
-        
-       
-        public List<string> Set()
+        public bool Exists()
         {
-            var result = new List<string>();
-            var thread = new Thread(() =>
-            {
-                var list = new ActionDatas().Actions;
-                var displayOrder=1;
-                var totalCount = list.Count;
-
-                foreach (var t in list)
-                {
-                    _repositoryAction.Add(new Action
-                    {
-                        Id = System.Guid.NewGuid(),
-                        ActionName = t.ActionName,
-                        ControllerName = t.ControllerName
-                    });
-                    result.Add("İşlem " + displayOrder + " / " + totalCount + " " + t.ActionName+" " + t.ControllerName);
-                    displayOrder++;
-                }
-                _repositoryAction.SaveChanges();
-
-            });
-            thread.Start();
-            return result;
-
-
-
-            
+            return _repositoryAction.Get().Any();
         }
+
+        public List<Action> GetList()
+        {
+            var list = new ActionDatas().Actions;
+            return list.Select(t => new Action
+            {
+                Id = System.Guid.NewGuid(),
+                ActionName = t.ActionName,
+                ControllerName = t.ControllerName
+            }).ToList();
+        }
+
+        
     }
 }

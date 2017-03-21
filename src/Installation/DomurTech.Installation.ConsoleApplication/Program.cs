@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading;
 using DomurTech.ERP.Data.Access.EntityFramework;
 using DomurTech.ERP.Data.Entities.Concrete;
 using DomurTech.Installation.Common.Models;
@@ -15,6 +16,7 @@ namespace DomurTech.Installation.ConsoleApplication
 {
     internal class Program
     {
+        private static LanguageInstaller _languageInstaller;
         private static UserInstaller _userInstaller;
         private static RoleInstaller _roleInstaller;
         private static RoleUserLineInstaller _roleUserLineInstaller;
@@ -86,24 +88,43 @@ namespace DomurTech.Installation.ConsoleApplication
 
         private static void Step2()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["InstallationDatabaseContext"].ConnectionString;
-            var keyValuePairs = connectionString.Split(';').Select(s => s.Split('=')).Select(connectionStringArray => new KeyValuePair<string, string>(connectionStringArray[0].Trim(), connectionStringArray[1].Trim())).ToList();
-
-            var model = new DatabaseConnectionModel
+            var thread = new Thread(() =>
             {
-                DataSource = keyValuePairs.FirstOrDefault(x => x.Key == "Data Source").Value,
-                InitialCatalog = keyValuePairs.FirstOrDefault(x => x.Key == "Initial Catalog").Value,
-                UserId = keyValuePairs.FirstOrDefault(x => x.Key == "User ID").Value,
-                Password = keyValuePairs.FirstOrDefault(x => x.Key == "Password").Value,
-                Message = ""
-            };
+                var connectionString = ConfigurationManager.ConnectionStrings["InstallationDatabaseContext"].ConnectionString;
+                var keyValuePairs = connectionString.Split(';').Select(s => s.Split('=')).Select(connectionStringArray => new KeyValuePair<string, string>(connectionStringArray[0].Trim(), connectionStringArray[1].Trim())).ToList();
 
-            Console.WriteLine(@"Sunucu: " + model.DataSource);
-            Console.WriteLine(@"Veritabanı: " + model.InitialCatalog);
-            Console.WriteLine(@"Kullanıcı Adı: " + model.UserId);
-            Console.WriteLine(@"Şifre: " + model.Password);
-            Step2Next();
+                var model = new DatabaseConnectionModel
+                {
+                    DataSource = keyValuePairs.FirstOrDefault(x => x.Key == "Data Source").Value,
+                    InitialCatalog = keyValuePairs.FirstOrDefault(x => x.Key == "Initial Catalog").Value,
+                    UserId = keyValuePairs.FirstOrDefault(x => x.Key == "User ID").Value,
+                    Password = keyValuePairs.FirstOrDefault(x => x.Key == "Password").Value,
+                    Message = ""
+                };
 
+                using (var context = new InstallationDatabaseContext())
+                {
+                    _languageInstaller = new LanguageInstaller(new Repository<Language>(context));
+                    if (_languageInstaller.Exists())
+                    {
+                        Step2Next();
+                        var counter = 1;
+                        var totalCount = _languageInstaller.GetList().Count;
+                        foreach (var language in _languageInstaller.GetList())
+                        {
+                            _languageInstaller.Add(language);
+                            Console.WriteLine(@"Language {0}/{1} {2}", counter, totalCount, language.LanguageCode);
+                            counter++;
+                        }
+                    }
+                }
+                Console.WriteLine(@"Sunucu: " + model.DataSource);
+                Console.WriteLine(@"Veritabanı: " + model.InitialCatalog);
+                Console.WriteLine(@"Kullanıcı Adı: " + model.UserId);
+                Console.WriteLine(@"Şifre: " + model.Password);
+                Step2Next();
+            });
+            thread.Start();
         }
 
         private static void Step2Next()
@@ -138,90 +159,122 @@ namespace DomurTech.Installation.ConsoleApplication
 
         private static void Step3()
         {
-            Console.Write(@"Adı: ");
-            var firstName = Console.ReadLine();
-            Console.Write(@"Soyadı: ");
-            var lastName = Console.ReadLine();
-            Console.Write(@"Kullanıcı Adı: ");
-            var username = Console.ReadLine();
-            Console.Write(@"Şifre: ");
-            var password = Console.ReadLine();
-            Console.Write(@"Şifre Tekrarı: ");
-            var confirmPassword = Console.ReadLine();
-            Console.Write(@"Eposta: ");
-            var email = Console.ReadLine();
-
-            var model = new AdminModel
+            var thread = new Thread(() =>
             {
-                FirstName = firstName,
-                LastName = lastName,
-                Username = username,
-                Password = password,
-                ConfirmPassword = confirmPassword,
-                Email = email
-            };
+                Console.Write(@"Adı: ");
+                var firstName = Console.ReadLine();
+                Console.Write(@"Soyadı: ");
+                var lastName = Console.ReadLine();
+                Console.Write(@"Kullanıcı Adı: ");
+                var username = Console.ReadLine();
+                Console.Write(@"Şifre: ");
+                var password = Console.ReadLine();
+                Console.Write(@"Şifre Tekrarı: ");
+                var confirmPassword = Console.ReadLine();
+                Console.Write(@"Eposta: ");
+                var email = Console.ReadLine();
 
-            try
-            {
-                var validator = new FluentBaseValidator<AdminModel, AdminRules>(model);
-                var validationResults = validator.Validate();
-                if (!validator.IsValid)
+                var model = new AdminModel
                 {
-                    throw new CustomValidationException(Messages.DangerInvalidEntitiy)
-                    {
-                        ValidationResult = validationResults
-                    };
-                }
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Username = username,
+                    Password = password,
+                    ConfirmPassword = confirmPassword,
+                    Email = email
+                };
 
-                using (var context = new InstallationDatabaseContext())
+                try
                 {
-                    var list = new List<string>();
-                    _userInstaller = new UserInstaller(new Repository<User>(context), new Repository<Language>(context), new Repository<UserHistory>(context), new Repository<Person>(context), new Repository<PersonHistory>(context));
-                    if (_userInstaller.Exists())
+                    var validator = new FluentBaseValidator<AdminModel, AdminRules>(model);
+                    var validationResults = validator.Validate();
+                    if (!validator.IsValid)
                     {
+                        throw new CustomValidationException(Messages.DangerInvalidEntitiy)
+                        {
+                            ValidationResult = validationResults
+                        };
+                    }
+
+                    using (var context = new InstallationDatabaseContext())
+                    {
+                        _userInstaller = new UserInstaller(new Repository<User>(context));
+                        if (_userInstaller.Exists())
+                        {
+                            Step4();
+                        }
+
+                        var counter = 1;
+                        var totalCount = 1;
+                        var addedUser= _userInstaller.Add(new User
+                        {
+                            Id = Guid.NewGuid(),
+                            Username = model.Username,
+                            Password = model.Password,
+                            Email = model.Email,
+                            CreateDate = DateTime.Now,
+                            IsApproved = true,
+                            DisplayOrder = 1,
+                            Language = _languageInstaller.GetFirst(),
+                            Person = new Person
+                            {
+                                Id = Guid.NewGuid(),
+                                FirstName = model.FirstName,
+                                LastName = model.LastName,
+                                BirthDate = DateTime.Now.AddYears(-35),
+                                TcKimlikNo = "12345678901",
+                                CreateDate = DateTime.Now,
+                                IsApproved = true,
+                                DisplayOrder = 1
+                            }
+                        });
+                        Console.WriteLine(@"User {0}/{1} {2}", counter, totalCount, model.Username);
+                        
+
+
+                        _roleInstaller = new RoleInstaller(new Repository<User>(context));
+
+                        list.AddRange(_roleInstaller.Set());
+
+
+                        _roleUserLineInstaller = new RoleUserLineInstaller(new Repository<User>(context));
+                        list.AddRange(_roleUserLineInstaller.Set());
+
+                        _actionInstaller = new ActionInstaller();
+                        list.AddRange(_actionInstaller.Set());
+
+                        _applicationSettingInstaller = new ApplicationSettingInstaller(new Repository<ApplicationSetting>(context));
+                        list.AddRange(_applicationSettingInstaller.Set());
+
+                        foreach (var item in list)
+                        {
+                            Console.WriteLine(item);
+                        }
+
+
                         Step4();
                     }
-                    list.AddRange(_userInstaller.Set(model));
-                    
-                    _roleInstaller = new RoleInstaller(new Repository<Role>(context), new Repository<RoleHistory>(context), new Repository<RoleLanguageLine>(context), new Repository<RoleLanguageLineHistory>(context), new Repository<Language>(context), new Repository<User>(context));
 
-                    list.AddRange(_roleInstaller.Set());
-
-
-                    _roleUserLineInstaller = new RoleUserLineInstaller(new Repository<RoleUserLine>(context), new Repository<RoleUserLineHistory>(context), new Repository<Role>(context), new Repository<User>(context));
-                    list.AddRange(_roleUserLineInstaller.Set());
-
-                    _actionInstaller = new ActionInstaller(new Repository<ERP.Data.Entities.Concrete.Action>(context));
-                    list.AddRange(_actionInstaller.Set());
-
-                    _applicationSettingInstaller = new ApplicationSettingInstaller(new Repository<ApplicationSetting>(context), new Repository<ApplicationSettingHistory>(context), new Repository<User>(context));
-                    list.AddRange(_applicationSettingInstaller.Set());
-
-                    foreach (var item in list)
-                    {
-                        Console.WriteLine(item);
-                    }
-
-                    
-                    Step4();
                 }
-
-            }
-            catch (CustomValidationException exception)
-            {
-                var validationResult = exception.ValidationResult;
-                foreach (var t in validationResult)
+                catch (CustomValidationException exception)
                 {
-                    Console.WriteLine(t.ErrorMessage);
+                    var validationResult = exception.ValidationResult;
+                    foreach (var t in validationResult)
+                    {
+                        Console.WriteLine(t.ErrorMessage);
+                    }
                 }
-            }
 
-            catch (Exception exception)
-            {
-                model.Message = exception.ToString();
-                Console.WriteLine(model.Message);
-            }
-            Console.ReadLine();
+                catch (Exception exception)
+                {
+                    model.Message = exception.ToString();
+                    Console.WriteLine(model.Message);
+                }
+                Console.ReadLine();
+            });
+            thread.Start();
+
+            
         }
 
         private static void Step4()

@@ -13,9 +13,7 @@ namespace DomurTech.ERP.Data.Entities.Concrete
         public DateTime BirthDate { get; set; }
         public int DisplayOrder { get; set; }
         public bool IsApproved { get; set; }
-        public DateTime CreateDate { get; set; }
-        public DateTime UpdateDate { get; set; }
-      
+        public DateTime CreateDate { get; set; }      
         public virtual IList<User> Users { get; set; }
 
     }

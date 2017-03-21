@@ -22,12 +22,9 @@ namespace DomurTech.ERP.Data.Access.EntityFramework.Configurations
             Property(x => x.SettingKey).IsRequired().HasColumnType("nvarchar").HasMaxLength(100).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("UK_SettingKey", 1) { IsUnique = true }));
             Property(x => x.SettingValue).IsRequired().HasColumnType("nvarchar").HasMaxLength(500);
             Property(x => x.Erasable).IsRequired();
-            Property(x => x.DisplayOrder).IsRequired();
+            Property(x => x.DisplayOrder).IsRequired().HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute()));
             Property(x => x.IsApproved).IsRequired();
             Property(x => x.CreateDate).IsRequired();
-            Property(x => x.UpdateDate).IsRequired();
-            HasRequired(x => x.CreatedBy).WithMany(y => y.ApplicationSettingsCreatedBy).WillCascadeOnDelete(false);
-            HasRequired(x => x.UpdatedBy).WithMany(y => y.ApplicationSettingsUpdatedBy).WillCascadeOnDelete(false);
         }
     }
 }

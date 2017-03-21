@@ -27,12 +27,9 @@ namespace DomurTech.ERP.Data.Access.EntityFramework.Configurations
             Property(x => x.Address).IsOptional().HasColumnType("nvarchar").HasMaxLength(400);
             Property(x => x.Phone).IsOptional().HasColumnType("nvarchar").HasMaxLength(400);
             Property(x => x.Fax).IsOptional().HasColumnType("nvarchar").HasMaxLength(400);
-            Property(x => x.DisplayOrder).IsRequired();
+            Property(x => x.DisplayOrder).IsRequired().HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute()));
             Property(x => x.IsApproved).IsRequired();
             Property(x => x.CreateDate).IsRequired();
-            Property(x => x.UpdateDate).IsRequired();
-            HasRequired(x => x.CreatedBy).WithMany(y => y.OrganizationsCreatedBy).WillCascadeOnDelete(false);
-            HasRequired(x => x.UpdatedBy).WithMany(y => y.OrganizationsUpdatedBy).WillCascadeOnDelete(false);
             HasRequired(x => x.District).WithMany(y => y.Organizations).WillCascadeOnDelete(false);
         }
     }
