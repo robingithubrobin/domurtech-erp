@@ -58,6 +58,9 @@ namespace DomurTech.Installation.WindowsFormApplication
                 using (var context = new InstallationDatabaseContext())
                 {
                     _userInstaller = new UserInstaller(new Repository<User>(context), new Repository<Language>(context), new Repository<UserHistory>(context), new Repository<Person>(context), new Repository<PersonHistory>(context));
+
+
+
                     Form4 form4;
                     if (_userInstaller.Exists())
                     {

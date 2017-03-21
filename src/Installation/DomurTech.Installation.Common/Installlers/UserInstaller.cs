@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using DomurTech.ERP.Data.Access.Abstract;
 using DomurTech.ERP.Data.Entities.Concrete;
 using DomurTech.Helpers;
@@ -29,88 +31,67 @@ namespace DomurTech.Installation.Common.Installlers
             return _repositoryUser.Get().Any();
         }
 
-        public void Set(AdminModel model)
+        public List<User> Set(AdminModel model)
         {
-
-            var user = new User
+            var result = new List<User>();
+            var thread = new Thread(() =>
             {
-                Id = Guid.NewGuid(),
-                Username = model.Username,
-                Password = model.Password.ToSha512(),
-                Email = model.Email,
-                DisplayOrder = 1,
-                IsApproved = true,
-                CreateDate = DateTime.Now,
-                UpdateDate = DateTime.Now,
-            };
-            user.CreatedBy = user;
-            user.UpdatedBy = user;
-            user.Language = _repositoryLanguage.Get().FirstOrDefault(x => x.DisplayOrder == 1);
+                var user = new User
+                {
+                    Id = Guid.NewGuid(),
+                    Username = model.Username,
+                    Password = model.Password.ToSha512(),
+                    Email = model.Email,
+                    DisplayOrder = 1,
+                    IsApproved = true,
+                    CreateDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                };
+                user.CreatedBy = user;
+                user.UpdatedBy = user;
+                user.Language = _repositoryLanguage.Get().FirstOrDefault(x => x.DisplayOrder == 1);
 
-            user.Person = new Person
-            {
-                Id = Guid.NewGuid(),
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                TcKimlikNo = "12345678901",
-                BirthDate = DateTime.Now.AddYears(-35),
-                DisplayOrder = 1,
-                IsApproved = true,
-                CreateDate = DateTime.Now,
-                UpdateDate = DateTime.Now,
-                CreatedBy = user,
-                UpdatedBy = user
-            }; 
-            var addedUser = _repositoryUser.Add(user);
+                user.Person = new Person
+                {
+                    Id = Guid.NewGuid(),
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    TcKimlikNo = "12345678901",
+                    BirthDate = DateTime.Now.AddYears(-35),
+                    DisplayOrder = 1,
+                    IsApproved = true,
+                    CreateDate = DateTime.Now,
+                    UpdateDate = DateTime.Now,
+                };
+                var addedUser = _repositoryUser.Add(user);
+                result.Add("User " + 1 + " / " + 1 + " " + model.Username);
 
-            _repositoryUser.SaveChanges();
+                _repositoryUser.SaveChanges();
 
-          //  person.CreatedBy = user;
-           // person.UpdatedBy = user;
+                _repositoryUserHistory.Add(new UserHistory
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = addedUser.Id,
+                    Username = addedUser.Username,
+                    Password = addedUser.Username,
+                    Email = addedUser.Email,
+                    LanguageId = addedUser.Language.Id,
+                    PersonId = addedUser.Person.Id,
+                    DisplayOrder = addedUser.DisplayOrder,
+                    IsApproved = addedUser.IsApproved,
+                    CreateDate = addedUser.CreateDate,
+                    CreatedBy = addedUser.CreatedBy.Id,
+                    VersionNo = 1,
+                    RestoreVersionNo = 0,
+                    IsDeleted = false
 
-            //var addedPerson = _repositoryPerson.Add(person);
-            //_repositoryPerson.SaveChanges();
-
-           
-            
-
-           
-
-            //_repositoryPersonHistory.Add(new PersonHistory
-            //{
-            //    Id = Guid.NewGuid(),
-            //    PersonId = addedPerson.Id,
-            //    FirstName = addedPerson.FirstName,
-            //    LastName = addedPerson.LastName,
-            //    DisplayOrder = addedPerson.DisplayOrder,
-            //    IsApproved = addedPerson.IsApproved,
-            //    CreateDate = addedPerson.CreateDate,
-            //    CreatedBy = addedPerson.CreatedBy.Id,
-            //    VersionNo = 1,
-            //    RestoreVersionNo = 0,
-            //    IsDeleted = false
-            //});
-
-
-            _repositoryUserHistory.Add(new UserHistory
-            {
-                Id = Guid.NewGuid(),
-                UserId = addedUser.Id,
-                Username = addedUser.Username,
-                Password = addedUser.Username,
-                Email = addedUser.Email,
-                LanguageId = addedUser.Language.Id,
-                PersonId = addedUser.Person.Id,
-                DisplayOrder = addedUser.DisplayOrder,
-                IsApproved = addedUser.IsApproved,
-                CreateDate = addedUser.CreateDate,
-                CreatedBy = addedUser.CreatedBy.Id,
-                VersionNo = 1,
-                RestoreVersionNo = 0,
-                IsDeleted = false
-
+                });
+                result.Add("UserHistory " + 1 + " / " + 1 + " " + model.Username);
+                _repositoryUserHistory.SaveChanges();
             });
-            _repositoryUserHistory.SaveChanges();
+            thread.Start();
+            return result;
+            
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using DomurTech.ERP.Data.Access.Abstract;
@@ -27,15 +28,14 @@ namespace DomurTech.Installation.Common.Installlers
             
         }
 
-        public string Set()
+        public List<string> Set()
         {
-            var result = string.Empty;
+            var result=new List<string>();
             var thread = new Thread(() =>
             {
                 var dataList = new RoleDatas().RoleLanguageLines;
                 int displayOrder;
-                var totalCount = 0;
-                totalCount = dataList.Count;
+                var totalCount = dataList.Count;
                 for (var i = 0; i < dataList.Count; i++)
                 {
                     displayOrder = i + 1;
@@ -50,7 +50,8 @@ namespace DomurTech.Installation.Common.Installlers
                         CreatedBy = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1),
                         UpdatedBy = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1)
                     });
-                    result += "İşlem " + displayOrder + " / " + totalCount+" "+ dataList[i].Role.RoleCode;
+
+                    result.Add("İşlem " + displayOrder + " / " + totalCount+" "+ dataList[i].Role.RoleCode);
                 }
                 _repositoryRole.SaveChanges();
                 var items = _repositoryRole.Get().ToList();
@@ -71,7 +72,7 @@ namespace DomurTech.Installation.Common.Installlers
                         RestoreVersionNo = 0,
                         IsDeleted = false
                     });
-                    result += "İşlem " + displayOrder + " / " + totalCount + " " + item.RoleCode;
+                    result.Add("İşlem " + displayOrder + " / " + totalCount + " " + item.RoleCode);
                 }
                 _repositoryRoleHistory.SaveChanges();
 
@@ -95,7 +96,7 @@ namespace DomurTech.Installation.Common.Installlers
                             UpdateDate = DateTime.Now,
                             UpdatedBy = user
                         });                       
-                        result += "İşlem " + displayOrder + " / " + totalCount + " " + dataList[i].RoleName;
+                        result.Add("İşlem " + displayOrder + " / " + totalCount + " " + dataList[i].RoleName);
                         displayOrder++;
                     }
 
@@ -119,7 +120,7 @@ namespace DomurTech.Installation.Common.Installlers
                         RestoreVersionNo = 0,
                         IsDeleted = false
                     });                   
-                    result += "İşlem " + displayOrder + " / " + totalCount + " " + itemLanguageLine.Id+"-"+ itemLanguageLine.Role.Id;
+                    result.Add("İşlem " + displayOrder + " / " + totalCount + " " + itemLanguageLine.Id+"-"+ itemLanguageLine.Role.Id);
                     displayOrder++;
                 }
                 _repositoryRoleLanguageLineHistory.SaveChanges();

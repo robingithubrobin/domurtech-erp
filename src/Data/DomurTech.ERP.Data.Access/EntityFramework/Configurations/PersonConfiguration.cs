@@ -24,8 +24,6 @@ namespace DomurTech.ERP.Data.Access.EntityFramework.Configurations
             Property(x => x.IsApproved).IsRequired();
             Property(x => x.CreateDate).IsRequired();
             Property(x => x.UpdateDate).IsRequired();
-            HasRequired(x => x.CreatedBy).WithMany(y => y.PersonsCreatedBy).WillCascadeOnDelete(false);
-            HasRequired(x => x.UpdatedBy).WithMany(y => y.PersonsUpdatedBy).WillCascadeOnDelete(false);
         }
     }
 }

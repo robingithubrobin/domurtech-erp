@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using DomurTech.ERP.Data.Access.Abstract;
 using DomurTech.ERP.Data.Entities.Concrete;
 using DomurTech.Installation.Common.DefaultDatas;
@@ -26,26 +28,37 @@ namespace DomurTech.Installation.Common.Installlers
             return setting ?? new ApplicationSetting();
         }
 
-        public void Set()
+        public List<string> Set()
         {
-            var list = new ApplicationSettingDatas().Settings;
-            for (var i = 0; i < list.Count; i++)
+            var result = new List<string>();
+            var thread = new Thread(() =>
             {
-                _repositorySetting.Add(new ApplicationSetting
+                var list = new ApplicationSettingDatas().Settings;
+                var totalCount = list.Count;
+                for (var i = 0; i < list.Count; i++)
                 {
-                    Id = Guid.NewGuid(),
-                    SettingKey = list[i].SettingKey,
-                    SettingValue = list[i].SettingValue,
-                    Erasable = false,
-                    DisplayOrder = i + 1,
-                    IsApproved = true,
-                    CreateDate = DateTime.Now,
-                    UpdateDate = DateTime.Now,
-                    CreatedBy = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1),
-                    UpdatedBy = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1)
-                });
-            }
-            _repositorySetting.SaveChanges();
+                    var displayOrder=i + 1;
+                    _repositorySetting.Add(new ApplicationSetting
+                    {
+                        Id = Guid.NewGuid(),
+                        SettingKey = list[i].SettingKey,
+                        SettingValue = list[i].SettingValue,
+                        Erasable = false,
+                        DisplayOrder = displayOrder,
+                        IsApproved = true,
+                        CreateDate = DateTime.Now,
+                        UpdateDate = DateTime.Now,
+                        CreatedBy = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1),
+                        UpdatedBy = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1)
+                    });
+                    result.Add("ApplicationSetting " + displayOrder + " / " + totalCount + " " + list[i].SettingKey);
+                }
+                _repositorySetting.SaveChanges();
+            });
+            thread.Start();
+            return result;
+
+           
 
 
         }

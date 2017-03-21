@@ -1,4 +1,6 @@
-﻿using DomurTech.ERP.Data.Access.Abstract;
+﻿using System.Collections.Generic;
+using System.Threading;
+using DomurTech.ERP.Data.Access.Abstract;
 using DomurTech.ERP.Data.Entities.Concrete;
 using DomurTech.Installation.Common.DefaultDatas;
 
@@ -14,20 +16,35 @@ namespace DomurTech.Installation.Common.Installlers
         }
         
        
-        public void Set()
+        public List<string> Set()
         {
-            var list = new ActionDatas().Actions;
-
-            foreach (var t in list)
+            var result = new List<string>();
+            var thread = new Thread(() =>
             {
-                _repositoryAction.Add(new Action
+                var list = new ActionDatas().Actions;
+                var displayOrder=1;
+                var totalCount = list.Count;
+
+                foreach (var t in list)
                 {
-                    Id = System.Guid.NewGuid(),
-                    ActionName = t.ActionName,
-                    ControllerName = t.ControllerName
-                });
-            }
-            _repositoryAction.SaveChanges();
+                    _repositoryAction.Add(new Action
+                    {
+                        Id = System.Guid.NewGuid(),
+                        ActionName = t.ActionName,
+                        ControllerName = t.ControllerName
+                    });
+                    result.Add("İşlem " + displayOrder + " / " + totalCount + " " + t.ActionName+" " + t.ControllerName);
+                    displayOrder++;
+                }
+                _repositoryAction.SaveChanges();
+
+            });
+            thread.Start();
+            return result;
+
+
+
+            
         }
     }
 }
