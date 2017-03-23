@@ -229,10 +229,25 @@ namespace DomurTech.Installation.ConsoleApplication
                             }
                         });
                         Console.WriteLine(@"User {0}/{1} {2}", counter, totalCount, model.Username);
-                        
+                        _roleInstaller = new RoleInstaller(new Repository<User>(context),new Repository<Role>(context),new Repository<RoleHistory>(context));
+                        totalCount = _roleInstaller.GetList().Count;    
+                        foreach (var role in _roleInstaller.GetList())
+                        {
+                            var addedRole=_roleInstaller.Add(role);
+                            Console.WriteLine(@"Role {0}/{1} {2}", counter, totalCount,addedRole.RoleCode);
+                            counter++;
+                        }
 
+                        var listHistory = _roleInstaller.GetList(_roleInstaller.GetAll());
+                        counter = 1;
+                        totalCount = listHistory.Count;
+                        foreach (var roleHistory in listHistory)
+                        {
+                          var added= _roleInstaller.Add(roleHistory);
+                            Console.WriteLine(@"RoleHistory {0}/{1} {2}", counter, totalCount, added.RoleCode);
+                            counter++;
+                        }
 
-                        _roleInstaller = new RoleInstaller(new Repository<User>(context));
 
                         list.AddRange(_roleInstaller.Set());
 
