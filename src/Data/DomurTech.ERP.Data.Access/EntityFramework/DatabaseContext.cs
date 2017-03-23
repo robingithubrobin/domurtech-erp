@@ -17,7 +17,11 @@ namespace DomurTech.ERP.Data.Access.EntityFramework
         {
             Configuration.LazyLoadingEnabled = false;
         }
-        
+        public new void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Configuration.LazyLoadingEnabled = false;
