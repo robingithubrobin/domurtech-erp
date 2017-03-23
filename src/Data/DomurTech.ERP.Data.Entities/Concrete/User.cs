@@ -20,28 +20,28 @@ namespace DomurTech.ERP.Data.Entities.Concrete
         public string ConfirmPassword { get; set; }
         public string OldPassword { get; set; }
 
-        public virtual IList<City> CitiesCreatedBy { get; set; }
+        public virtual ICollection<City> CitiesCreatedBy { get; set; }
 
-        public virtual IList<CityLanguageLine> CityLanguageLinesCreatedBy { get; set; }
+        public virtual ICollection<CityLanguageLine> CityLanguageLinesCreatedBy { get; set; }
 
-        public virtual IList<Country> CountriesCreatedBy { get; set; }
+        public virtual ICollection<Country> CountriesCreatedBy { get; set; }
 
-        public virtual IList<CountryLanguageLine> CountryLanguageLinesCreatedBy { get; set; }
-        public virtual IList<Department> DepartmentsCreatedBy { get; set; }
-        public virtual IList<District> DistrictsCreatedBy { get; set; }
+        public virtual ICollection<CountryLanguageLine> CountryLanguageLinesCreatedBy { get; set; }
+        public virtual ICollection<Department> DepartmentsCreatedBy { get; set; }
+        public virtual ICollection<District> DistrictsCreatedBy { get; set; }
 
-        public virtual IList<DistrictLanguageLine> DistrictLanguageLinesCreatedBy { get; set; }
-        public virtual IList<Organization> OrganizationsCreatedBy { get; set; }
-        public virtual IList<Person> PersonsCreatedBy { get; set; }
-        public virtual IList<Role> RolesCreatedBy { get; set; }
+        public virtual ICollection<DistrictLanguageLine> DistrictLanguageLinesCreatedBy { get; set; }
+        public virtual ICollection<Organization> OrganizationsCreatedBy { get; set; }
+        public virtual ICollection<Person> PersonsCreatedBy { get; set; }
+        public virtual ICollection<Role> RolesCreatedBy { get; set; }
 
-        public virtual IList<RoleLanguageLine> RoleLanguageLinesCreatedBy { get; set; }
-        public virtual IList<RoleUserLine> RoleUserLines { get; set; }
-        public virtual IList<RoleUserLine> RoleUserLinesCreatedBy { get; set; }
-        public virtual IList<Session> SessionsCreatedBy { get; set; }
-        public virtual IList<SessionHistory> SessionHistoriesCreatedBy { get; set; }
-        public virtual IList<ApplicationSetting> ApplicationSettingsCreatedBy { get; set; }
-        public virtual IList<User> UsersCreatedBy { get; set; }
+        public virtual ICollection<RoleLanguageLine> RoleLanguageLinesCreatedBy { get; set; }
+        public virtual ICollection<RoleUserLine> RoleUserLines { get; set; }
+        public virtual ICollection<RoleUserLine> RoleUserLinesCreatedBy { get; set; }
+        public virtual ICollection<Session> SessionsCreatedBy { get; set; }
+        public virtual ICollection<SessionHistory> SessionHistoriesCreatedBy { get; set; }
+        public virtual ICollection<ApplicationSetting> ApplicationSettingsCreatedBy { get; set; }
+        public virtual ICollection<User> UsersCreatedBy { get; set; }
        
     }
 }

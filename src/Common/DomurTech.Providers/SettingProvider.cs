@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DomurTech.Providers.Abstract;
 using DomurTech.Providers.Caching;
 using DomurTech.Providers.DataAccess.EntityFramework;
@@ -6,9 +7,9 @@ using DomurTech.Providers.Entities;
 
 namespace DomurTech.Providers
 {
-    internal class SettingProvider
+    internal class SettingProvider : IDisposable
     {
-
+         private bool _disposed;
         private readonly MemoryCacheManager _memoryCacheManager = new MemoryCacheManager();
         private IRepository<Setting> _repositorySetting;
         public string GetValue(string key)
@@ -41,6 +42,23 @@ namespace DomurTech.Providers
                 _repositorySetting = new Repository<Setting>(context);
                 return _repositorySetting.Get().Where(a => a.SettingKey == key).Select(b => b.SettingValue).FirstOrDefault();
             }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        public virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _repositorySetting.Dispose();
+                }
+            }
+            _disposed = true;
         }
     }
 }

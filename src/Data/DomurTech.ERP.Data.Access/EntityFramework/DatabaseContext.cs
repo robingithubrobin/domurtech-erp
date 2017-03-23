@@ -17,7 +17,7 @@ namespace DomurTech.ERP.Data.Access.EntityFramework
         {
             Configuration.LazyLoadingEnabled = false;
         }
-
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Configuration.LazyLoadingEnabled = false;

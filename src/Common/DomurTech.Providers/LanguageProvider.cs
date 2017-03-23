@@ -8,7 +8,7 @@ using DomurTech.Providers.Entities;
 
 namespace DomurTech.Providers
 {
-    internal class LanguageProvider
+    internal class LanguageProvider : IDisposable
     {
         private IRepository<Language> _repositoryLanguage;
         private readonly MemoryCacheManager _memoryCacheManager = new MemoryCacheManager();
@@ -68,6 +68,11 @@ namespace DomurTech.Providers
                 var list = query.Where(e => e.IsApproved).OrderBy(e=>e.DisplayOrder).ToList();
                 return list;
             }
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

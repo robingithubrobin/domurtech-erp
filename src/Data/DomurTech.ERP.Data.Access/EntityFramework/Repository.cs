@@ -47,7 +47,7 @@ namespace DomurTech.ERP.Data.Access.EntityFramework
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        public virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!_disposed)
             {
