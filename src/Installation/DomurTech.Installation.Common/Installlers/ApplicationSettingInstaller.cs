@@ -54,6 +54,11 @@ namespace DomurTech.Installation.Common.Installlers
             }).ToList();
         }
 
+        public ApplicationSetting Add(ApplicationSetting applicationSetting)
+        {
+            return _repositoryApplicationSetting.Add(applicationSetting);
+        }
+
 
         public void Update(ApplicationSetting setting)
         {

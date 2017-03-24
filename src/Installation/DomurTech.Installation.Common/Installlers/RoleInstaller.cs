@@ -10,10 +10,14 @@ namespace DomurTech.Installation.Common.Installlers
     public class RoleInstaller
     {
         private readonly IRepository<User> _repositoryUser;
+        private readonly IRepository<Role> _repositoryRole;
+        private readonly IRepository<RoleHistory> _repositoryRoleHistory;
 
-        public RoleInstaller(IRepository<User> repositoryUser)
+        public RoleInstaller(IRepository<User> repositoryUser, IRepository<Role> repositoryRole, IRepository<RoleHistory> repositoryRoleHistory)
         {
             _repositoryUser = repositoryUser;
+            _repositoryRole = repositoryRole;
+            _repositoryRoleHistory = repositoryRoleHistory;
         }
 
         public List<Role> GetList()
@@ -29,14 +33,14 @@ namespace DomurTech.Installation.Common.Installlers
             }).ToList();
         }
 
-        public List<RoleHistory> GetList(List<Role> countries)
+        public List<RoleHistory> GetList(List<Role> items)
         {
             var user = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1);
             if (user == null)
             {
                 return new List<RoleHistory>();
             }
-            return countries.Select(item => new RoleHistory
+            return items.Select(item => new RoleHistory
             {
                 Id = Guid.NewGuid(),
                 RoleId = item.Id,
@@ -90,6 +94,24 @@ namespace DomurTech.Installation.Common.Installlers
                 RestoreVersionNo = 0,
                 IsDeleted = false
             }).ToList();
+        }
+
+        public Role Add(Role role)
+        {
+            var result= _repositoryRole.Add(role);
+            _repositoryRole.SaveChanges();
+            return result;
+        }
+
+        public void Add(RoleHistory roleHistory)
+        {
+            _repositoryRoleHistory.Add(roleHistory);
+            _repositoryRoleHistory.SaveChanges();
+        }
+
+        public IQueryable<Role> GetAll()
+        {
+            return _repositoryRole.Get();
         }
 
     }

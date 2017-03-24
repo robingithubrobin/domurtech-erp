@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading;
+using DomurTech.ERP.Data.Access.Abstract;
 using DomurTech.ERP.Data.Access.EntityFramework;
+using DomurTech.ERP.Data.Access.EntityFramework.Abstract;
 using DomurTech.ERP.Data.Entities.Concrete;
 using DomurTech.Installation.Common.Models;
 using DomurTech.Installation.Common.ValidationRules;
@@ -11,17 +13,33 @@ using DomurTech.Validation.FluentValidation;
 using DomurTech.Exceptions;
 using DomurTech.Globalization;
 using DomurTech.Installation.Common.Installlers;
+using Action = DomurTech.ERP.Data.Entities.Concrete.Action;
 
 namespace DomurTech.Installation.ConsoleApplication
 {
     internal class Program
     {
-        private static LanguageInstaller _languageInstaller;
-        private static UserInstaller _userInstaller;
-        private static RoleInstaller _roleInstaller;
-        private static RoleUserLineInstaller _roleUserLineInstaller;
-        private static ActionInstaller _actionInstaller;
-        private static ApplicationSettingInstaller _applicationSettingInstaller;
+        private static readonly IDatabaseContext Context=new DatabaseContext();
+        private static readonly IRepository<Language> RepositoryLanguage=new Repository<Language>(Context);
+        private static readonly IRepository<Person> RepositoryPerson = new Repository<Person>(Context);
+        private static readonly IRepository<PersonHistory> RepositoryPersonHistory = new Repository<PersonHistory>(Context);
+        private static readonly IRepository<User> RepositoryUser = new Repository<User>(Context);
+        private static readonly IRepository<UserHistory> RepositoryUserHistory = new Repository<UserHistory>(Context);
+        private static readonly IRepository<Role> RepositoryRole = new Repository<Role>(Context);
+        private static readonly IRepository<RoleHistory> RepositoryRoleHistory = new Repository<RoleHistory>(Context);
+        private static readonly IRepository<RoleUserLine> RepositoryRoleUserLine = new Repository<RoleUserLine>(Context);
+        private static readonly IRepository<RoleUserLineHistory> RepositoryRoleUserLineHistory = new Repository<RoleUserLineHistory>(Context);
+        private static readonly IRepository<ApplicationSetting> RepositoryApplicationSetting = new Repository<ApplicationSetting>(Context);
+        private static readonly IRepository<ApplicationSettingHistory> RepositoryApplicationSettingHistory = new Repository<ApplicationSettingHistory>(Context);
+        private static readonly IRepository<Action> RepositoryAction = new Repository<Action>(Context);
+
+        private static readonly LanguageInstaller InstallerLanguage=new LanguageInstaller(RepositoryLanguage);
+        private static readonly PersonInstaller InstallerPerson=new PersonInstaller(RepositoryPerson, RepositoryPersonHistory);
+        private static readonly UserInstaller InstallerUser=new UserInstaller(RepositoryUser,RepositoryUserHistory);
+        private static readonly RoleInstaller InstallerRole=new RoleInstaller(RepositoryUser,RepositoryRole,RepositoryRoleHistory);
+        private static readonly RoleUserLineInstaller InstallerRoleUserLine=new RoleUserLineInstaller(RepositoryUser,RepositoryRoleUserLine,RepositoryRoleUserLineHistory);
+        private static readonly ActionInstaller InstallerAction=new ActionInstaller(RepositoryAction);
+        private static readonly ApplicationSettingInstaller InstallerApplicationSetting=new ApplicationSettingInstaller(RepositoryApplicationSetting);
         private static void Main()
         {
             Step1();
@@ -102,22 +120,16 @@ namespace DomurTech.Installation.ConsoleApplication
                     Message = ""
                 };
 
-                using (var context = new InstallationDatabaseContext())
+                Step2Next();
+                var counter = 1;
+                var totalCount = InstallerLanguage.GetList().Count;
+                foreach (var language in InstallerLanguage.GetList())
                 {
-                    _languageInstaller = new LanguageInstaller(new Repository<Language>(context));
-                    if (_languageInstaller.Exists())
-                    {
-                        Step2Next();
-                        var counter = 1;
-                        var totalCount = _languageInstaller.GetList().Count;
-                        foreach (var language in _languageInstaller.GetList())
-                        {
-                            _languageInstaller.Add(language);
-                            Console.WriteLine(@"Language {0}/{1} {2}", counter, totalCount, language.LanguageCode);
-                            counter++;
-                        }
-                    }
+                    InstallerLanguage.Add(language);
+                    Console.WriteLine(@"Language {0}/{1} {2}", counter, totalCount, language.LanguageCode);
+                    counter++;
                 }
+
                 Console.WriteLine(@"Sunucu: " + model.DataSource);
                 Console.WriteLine(@"Veritabanı: " + model.InitialCatalog);
                 Console.WriteLine(@"Kullanıcı Adı: " + model.UserId);
@@ -195,65 +207,153 @@ namespace DomurTech.Installation.ConsoleApplication
                             ValidationResult = validationResults
                         };
                     }
-
-                    using (var context = new InstallationDatabaseContext())
+                    
+                    var counter = 1;
+                    var totalCount = 1;
+                    var addedPerson = InstallerPerson.Add(new Person
                     {
-                        _userInstaller = new UserInstaller(new Repository<User>(context));
-                        if (_userInstaller.Exists())
-                        {
-                            Step4();
-                        }
+                        Id = Guid.NewGuid(),
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        BirthDate = DateTime.Now.AddYears(-35),
+                        TcKimlikNo = "12345678901",
+                        CreateDate = DateTime.Now,
+                        IsApproved = true,
+                        DisplayOrder = 1
+                    });
+                    Console.WriteLine(@"Person {0}/{1} {2}", counter, totalCount, addedPerson.Id);
 
-                        var counter = 1;
-                        var totalCount = 1;
-                        var addedUser= _userInstaller.Add(new User
-                        {
-                            Id = Guid.NewGuid(),
-                            Username = model.Username,
-                            Password = model.Password,
-                            Email = model.Email,
-                            CreateDate = DateTime.Now,
-                            IsApproved = true,
-                            DisplayOrder = 1,
-                            Language = _languageInstaller.GetFirst(),
-                            Person = new Person
-                            {
-                                Id = Guid.NewGuid(),
-                                FirstName = model.FirstName,
-                                LastName = model.LastName,
-                                BirthDate = DateTime.Now.AddYears(-35),
-                                TcKimlikNo = "12345678901",
-                                CreateDate = DateTime.Now,
-                                IsApproved = true,
-                                DisplayOrder = 1
-                            }
-                        });
-                        Console.WriteLine(@"User {0}/{1} {2}", counter, totalCount, model.Username);
-                        
+                    InstallerUser.Add(new User
+                    {
+                        Id = Guid.NewGuid(),
+                        Username = model.Username,
+                        Password = model.Password,
+                        Email = model.Email,
+                        CreateDate = DateTime.Now,
+                        IsApproved = true,
+                        DisplayOrder = 1,
+                        Language = InstallerLanguage.GetFirst(),
+                        Person = InstallerPerson.GetFirst()
+                    });
+
+                    Console.WriteLine(@"User {0}/{1} {2}", counter, totalCount, model.Username);
+                    var user = InstallerUser.GetFirst();
 
 
-                        _roleInstaller = new RoleInstaller(new Repository<User>(context));
+                    InstallerPerson.Add(new PersonHistory
+                    {
+                        Id = Guid.NewGuid(),
+                        PersonId = addedPerson.Id,
+                        FirstName = addedPerson.FirstName,
+                        LastName = addedPerson.LastName,
+                        DisplayOrder = addedPerson.DisplayOrder,
+                        IsApproved = addedPerson.IsApproved,
+                        CreateDate = DateTime.Now,
+                        CreatedBy = user.Id,
+                        VersionNo = 1,
+                        RestoreVersionNo = 0,
+                        IsDeleted = false
+                    });
 
-                        list.AddRange(_roleInstaller.Set());
+                    Console.WriteLine(@"PersonHistory {0}/{1} {2}", counter, totalCount, model.Username);
 
+                    InstallerUser.Add(new UserHistory
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = user.Id,
+                        PersonId = user.Person.Id,
+                        Username = user.Username,
+                        Password = user.Password,
+                        Email = user.Email,
+                        LanguageId = user.Language.Id,
+                        DisplayOrder = user.DisplayOrder,
+                        IsApproved = user.IsApproved,
+                        CreateDate = DateTime.Now,
+                        CreatedBy = user.Id,
+                        VersionNo = 1,
+                        RestoreVersionNo = 0,
+                        IsDeleted = false
+                    });
+                    Console.WriteLine(@"UserHistory {0}/{1} {2}", counter, totalCount, model.Username);
 
-                        _roleUserLineInstaller = new RoleUserLineInstaller(new Repository<User>(context));
-                        list.AddRange(_roleUserLineInstaller.Set());
+                    counter = 1;
+                    totalCount = InstallerRole.GetList().Count;
 
-                        _actionInstaller = new ActionInstaller();
-                        list.AddRange(_actionInstaller.Set());
-
-                        _applicationSettingInstaller = new ApplicationSettingInstaller(new Repository<ApplicationSetting>(context));
-                        list.AddRange(_applicationSettingInstaller.Set());
-
-                        foreach (var item in list)
-                        {
-                            Console.WriteLine(item);
-                        }
-
-
-                        Step4();
+                    foreach (var role in InstallerRole.GetList())
+                    {
+                        InstallerRole.Add(role);
+                        Console.WriteLine(@"Role {0}/{1} {2}", counter, totalCount, role.RoleCode);
+                        counter++;
                     }
+                    counter = 1;
+                    totalCount = InstallerRole.GetAll().Count();
+                    foreach (var role in InstallerRole.GetAll())
+                    {
+                        var newGuid = Guid.NewGuid();
+                        InstallerRole.Add(new RoleHistory
+                        {
+                            Id = newGuid,
+                            RoleId = role.Id,
+                            RoleCode = role.RoleCode,
+                            DisplayOrder = role.DisplayOrder,
+                            IsApproved = role.IsApproved,
+                            CreateDate = DateTime.Now,
+                            CreatedBy = user.Id,
+                            VersionNo = 1,
+                            RestoreVersionNo = 0,
+                            IsDeleted = false
+                        });
+                        Console.WriteLine(@"RoleHistory {0}/{1} {2}", counter, totalCount, newGuid);
+                    }
+
+                    counter = 1;
+                    totalCount = InstallerRoleUserLine.GetList(InstallerRole.GetAll()).Count;
+                    foreach (var roleUserLine in InstallerRoleUserLine.GetList(InstallerRole.GetAll()))
+                    {
+                        InstallerRoleUserLine.Add(roleUserLine);
+                        Console.WriteLine(@"RoleUserLine {0}/{1} {2}", counter, totalCount, roleUserLine.Id);
+                        counter++;
+                    }
+
+                    counter = 1;
+                    totalCount = InstallerRoleUserLine.GetAl().Count();
+                    foreach (var roleUserLine in InstallerRoleUserLine.GetAl())
+                    {
+                        var newGuid = Guid.NewGuid();
+                        InstallerRoleUserLine.Add(new RoleUserLineHistory
+                        {
+                            Id = newGuid,
+                            RoleUserLineId = roleUserLine.Id,
+                            RoleId = roleUserLine.Role.Id,
+                            UserId = roleUserLine.User.Id,
+                            CreateDate = DateTime.Now,
+                            CreatedBy = user.Id,
+                            VersionNo = 1,
+                            RestoreVersionNo = 0,
+                            IsDeleted = false
+                        });
+                        Console.WriteLine(@"RoleUserLineHistory {0}/{1} {2}", counter, totalCount, newGuid);
+                        counter++;
+                    }
+
+                    counter = 1;
+                    totalCount = InstallerAction.GetAll().Count();
+
+                    foreach (var addedAction in InstallerAction.GetList().Select(action => InstallerAction.Add(action)))
+                    {
+                        Console.WriteLine(@"Action {0}/{1} {2}", counter, totalCount, addedAction.Id);
+                        counter++;
+                    }
+
+                    counter = 1;
+                    totalCount = InstallerApplicationSetting.GetList().Count;
+                    foreach (var addedApplicationSetting in InstallerApplicationSetting.GetList().Select(applicationSetting => InstallerApplicationSetting.Add(applicationSetting)))
+                    {
+                        Console.WriteLine(@"RoleUserLineHistory {0}/{1} {2}", counter, totalCount, addedApplicationSetting.Id);
+                        counter++;
+                    }
+
+                    Step4();
 
                 }
                 catch (CustomValidationException exception)

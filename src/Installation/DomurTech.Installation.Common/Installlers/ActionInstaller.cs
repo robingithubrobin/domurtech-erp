@@ -13,9 +13,15 @@ namespace DomurTech.Installation.Common.Installlers
         {
             _repositoryAction = repositoryAction;
         }
-        public bool Exists()
+
+        public IQueryable<Action> GetAll()
         {
-            return _repositoryAction.Get().Any();
+            return _repositoryAction.Get();
+        }
+
+        public Action Add(Action action)
+        {
+            return _repositoryAction.Add(action);
         }
 
         public List<Action> GetList()
