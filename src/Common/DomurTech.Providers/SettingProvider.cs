@@ -9,8 +9,8 @@ namespace DomurTech.Providers
 {
     internal class SettingProvider : IDisposable
     {
-         private bool _disposed;
-        private readonly MemoryCacheManager _memoryCacheManager = new MemoryCacheManager();
+        private bool _disposed;
+        private ICacheManager _cacheManager;
         private IRepository<Setting> _repositorySetting;
         public string GetValue(string key)
         {
@@ -18,14 +18,15 @@ namespace DomurTech.Providers
             if (key != "CacheTimeOut")
             {
                 var cacheKey = "DomurTech.Common.Providers.SettingProvider.GetValueByKey." + key;
-                if (!_memoryCacheManager.Exists(cacheKey))
+                _cacheManager= new MemoryCacheManager();
+                if (!_cacheManager.Exists(cacheKey))
                 {
                     value = GetValueFromDatabase(key);
-                    _memoryCacheManager.Add(key, value);
+                    _cacheManager.Add(key, value);
                 }
                 else
                 {
-                    return _memoryCacheManager.Get<string>(cacheKey);
+                    return _cacheManager.Get<string>(cacheKey);
                 }
             }
             else

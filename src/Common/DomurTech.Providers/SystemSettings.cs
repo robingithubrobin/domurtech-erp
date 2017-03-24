@@ -1,35 +1,265 @@
-﻿using DomurTech.Providers.Helpers;
-
-namespace DomurTech.Providers
+﻿namespace DomurTech.Providers
 {
     public static class SystemSettings
     {
-        private static readonly SettingProvider SettingProvider = new SettingProvider();
-        public static string ApplicationName = SettingProvider.GetValue("ApplicationName");
-        public static string ApplicationUrl = SettingProvider.GetValue("ApplicationUrl");
-        public static string SmtpServer = SettingProvider.GetValue("SmtpServer");
-        public static int SmtpPort = SettingProvider.GetValue("SmtpPort").ConvertToInt();
-        public static bool SmtpSsl = SettingProvider.GetValue("SmtpSsl").ConvertToBoolean();
-        public static string SmtpUser = SettingProvider.GetValue("SmtpUser");
-        public static string SmtpPassword = SettingProvider.GetValue("SmtpPassword");
-        public static string SmtpSenderName = SettingProvider.GetValue("SmtpSenderName");
-        public static string SmtpSenderMail = SettingProvider.GetValue("SmtpSenderMail");
-        public static bool SendMailAfterUpdateUserInformation = SettingProvider.GetValue("SendMailAfterUpdateUserInformation").ConvertToBoolean();
-        public static bool SendMailAfterUpdateUserPassword = SettingProvider.GetValue("SendMailAfterUpdateUserPassword").ConvertToBoolean();
-        public static bool SendMailAfterAddUser = SettingProvider.GetValue("SendMailAfterAddUser").ConvertToBoolean();
-        public static int CaptchaLenght = SettingProvider.GetValue("CaptchaLenght").ConvertToInt();
-        public static int SessionTimeOut => SettingProvider.GetValue("SessionTimeOut").ConvertToInt();
-        public static string PageSizeList => SettingProvider.GetValue("PageSizeList");
-        public static int DefaultPageSize => SettingProvider.GetValue("DefaultPageSize").ConvertToInt();
-        public static string CaptchaBackgroundImagePath = SettingProvider.GetValue("CaptchaBackgroundImagePath");
-        public static string EmailTemplatePath = SettingProvider.GetValue("EmailTemplatePath");
-        public static int CacheTimeOut = SettingProvider.GetValue("CacheTimeOut").ConvertToInt();
-        public static bool UseLoginCaptcha = SettingProvider.GetValue("UseLoginCaptcha").ConvertToBoolean();
-        public static bool UseSignUpCaptcha = SettingProvider.GetValue("UseSignUpCaptcha").ConvertToBoolean();
-        public static bool UseForgotPasswordCaptcha = SettingProvider.GetValue("UseForgotPasswordCaptcha").ConvertToBoolean();
-        public static string UserFiles = SettingProvider.GetValue("UserFiles");
-        public static string DefaultLanguage = SettingProvider.GetValue("DefaultLanguage");
-        public static string ContentFiles = SettingProvider.GetValue("ContentFiles");
+        public static string ApplicationName
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("ApplicationUrl");
+                } 
+            }
+        }
+        public static string ApplicationUrl
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("ApplicationUrl");
+                }
+            }
+        }
+
+        public static string SmtpServer
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("SmtpServer");
+                }
+            }
+        }
+        public static string SmtpPort
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("SmtpPort");
+                }
+            }
+        }
+        public static string SmtpSsl
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("SmtpSsl");
+                }
+            }
+        }
+        public static string SmtpUser
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("SmtpUser");
+                }
+            }
+        }
+
+        public static string SmtpPassword
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("SmtpPassword");
+                }
+            }
+        }
+
+        public static string SmtpSenderName
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("SmtpSenderName");
+                }
+            }
+        }
+
+        public static string SmtpSenderMail
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("SmtpSenderMail");
+                }
+            }
+        }
+        public static string SendMailAfterUpdateUserInformation
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("SendMailAfterUpdateUserInformation");
+                }
+            }
+        }
+        public static string SendMailAfterUpdateUserPassword
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("SendMailAfterUpdateUserPassword");
+                }
+            }
+        }
+        public static string SendMailAfterAddUser
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("SendMailAfterAddUser");
+                }
+            }
+        }
+        public static string CaptchaLenght
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("CaptchaLenght");
+                }
+            }
+        }
+        public static string SessionTimeOut
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("SessionTimeOut");
+                }
+            }
+        }
+        public static string PageSizeList
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("PageSizeList");
+                }
+            }
+        }
+        public static string DefaultPageSize
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("DefaultPageSize");
+                }
+            }
+        }
+        public static string CaptchaBackgroundImagePath
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("CaptchaBackgroundImagePath");
+                }
+            }
+        }
+        public static string EmailTemplatePath
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("EmailTemplatePath");
+                }
+            }
+        }
+        public static string CacheTimeOut
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("CacheTimeOut");
+                }
+            }
+        }
+        public static string UseLoginCaptcha
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("UseLoginCaptcha");
+                }
+            }
+        }
+        public static string UseSignUpCaptcha
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("UseSignUpCaptcha");
+                }
+            }
+        }
+        public static string UseForgotPasswordCaptcha
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("UseForgotPasswordCaptcha");
+                }
+            }
+        }
+        public static string UserFiles
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("UserFiles");
+                }
+            }
+        }
+        public static string DefaultLanguage
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("DefaultLanguage");
+                }
+            }
+        }
+        public static string ContentFiles
+        {
+            get
+            {
+                using (var settingProvider = new SettingProvider())
+                {
+                    return settingProvider.GetValue("ContentFiles");
+                }
+            }
+        }
+
+
+
+       
 
     }
 }

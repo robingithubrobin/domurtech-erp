@@ -11,20 +11,19 @@ namespace DomurTech.Providers
     internal class LanguageProvider : IDisposable
     {
         private IRepository<Language> _repositoryLanguage;
-        private readonly MemoryCacheManager _memoryCacheManager = new MemoryCacheManager();
-
         public List<string> GetAllLanguageCodes()
         {
             List<string> list;
             const string cacheKey = "DomurTech.Providers.LanguageProvider.GetAllLanguageCodes";
-            if (!_memoryCacheManager.Exists(cacheKey))
+            ICacheManager cacheManager=new MemoryCacheManager();
+            if (!cacheManager.Exists(cacheKey))
             {
                 list = GetAllLanguageCodesFromDatabase();
-                _memoryCacheManager.Add(cacheKey, list);
+                cacheManager.Add(cacheKey, list);
             }
             else
             {
-                list = _memoryCacheManager.Get<List<string>>(cacheKey);
+                list = cacheManager.Get<List<string>>(cacheKey);
             }
             return list;
         }
@@ -45,14 +44,15 @@ namespace DomurTech.Providers
         {
             List<Language> list;
             const string cacheKey = "DomurTech.Providers.LanguageProvider.GetAllLanguages";
-            if (!_memoryCacheManager.Exists(cacheKey))
+            ICacheManager cacheManager = new MemoryCacheManager();
+            if (!cacheManager.Exists(cacheKey))
             {
                 list = GetAllLanguagesFromDatabase();
-                _memoryCacheManager.Add(cacheKey, list);
+                cacheManager.Add(cacheKey, list);
             }
             else
             {
-                list = _memoryCacheManager.Get<List<Language>>(cacheKey);
+                list = cacheManager.Get<List<Language>>(cacheKey);
             }
             return list;
         }
