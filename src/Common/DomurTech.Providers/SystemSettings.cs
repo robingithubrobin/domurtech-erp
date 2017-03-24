@@ -1,4 +1,6 @@
-﻿namespace DomurTech.Providers
+﻿using DomurTech.Providers.Helpers;
+
+namespace DomurTech.Providers
 {
     public static class SystemSettings
     {
@@ -33,13 +35,13 @@
                 }
             }
         }
-        public static string SmtpPort
+        public static int SmtpPort
         {
             get
             {
                 using (var settingProvider = new SettingProvider())
                 {
-                    return settingProvider.GetValue("SmtpPort");
+                    return settingProvider.GetValue("SmtpPort").ConvertToInt();
                 }
             }
         }
@@ -96,53 +98,53 @@
                 }
             }
         }
-        public static string SendMailAfterUpdateUserInformation
+        public static bool SendMailAfterUpdateUserInformation
         {
             get
             {
                 using (var settingProvider = new SettingProvider())
                 {
-                    return settingProvider.GetValue("SendMailAfterUpdateUserInformation");
+                    return settingProvider.GetValue("SendMailAfterUpdateUserInformation").ConvertToBoolean();
                 }
             }
         }
-        public static string SendMailAfterUpdateUserPassword
+        public static bool SendMailAfterUpdateUserPassword
         {
             get
             {
                 using (var settingProvider = new SettingProvider())
                 {
-                    return settingProvider.GetValue("SendMailAfterUpdateUserPassword");
+                    return settingProvider.GetValue("SendMailAfterUpdateUserPassword").ConvertToBoolean();
                 }
             }
         }
-        public static string SendMailAfterAddUser
+        public static bool SendMailAfterAddUser
         {
             get
             {
                 using (var settingProvider = new SettingProvider())
                 {
-                    return settingProvider.GetValue("SendMailAfterAddUser");
+                    return settingProvider.GetValue("SendMailAfterAddUser").ConvertToBoolean();
                 }
             }
         }
-        public static string CaptchaLenght
+        public static int CaptchaLenght
         {
             get
             {
                 using (var settingProvider = new SettingProvider())
                 {
-                    return settingProvider.GetValue("CaptchaLenght");
+                    return settingProvider.GetValue("CaptchaLenght").ConvertToInt();
                 }
             }
         }
-        public static string SessionTimeOut
+        public static int SessionTimeOut
         {
             get
             {
                 using (var settingProvider = new SettingProvider())
                 {
-                    return settingProvider.GetValue("SessionTimeOut");
+                    return settingProvider.GetValue("SessionTimeOut").ConvertToInt();
                 }
             }
         }
@@ -156,13 +158,13 @@
                 }
             }
         }
-        public static string DefaultPageSize
+        public static int DefaultPageSize
         {
             get
             {
                 using (var settingProvider = new SettingProvider())
                 {
-                    return settingProvider.GetValue("DefaultPageSize");
+                    return settingProvider.GetValue("DefaultPageSize").ConvertToInt();
                 }
             }
         }
@@ -186,43 +188,43 @@
                 }
             }
         }
-        public static string CacheTimeOut
+        public static int CacheTimeOut
         {
             get
             {
                 using (var settingProvider = new SettingProvider())
                 {
-                    return settingProvider.GetValue("CacheTimeOut");
+                    return settingProvider.GetValue("CacheTimeOut").ConvertToInt();
                 }
             }
         }
-        public static string UseLoginCaptcha
+        public static bool UseLoginCaptcha
         {
             get
             {
                 using (var settingProvider = new SettingProvider())
                 {
-                    return settingProvider.GetValue("UseLoginCaptcha");
+                    return settingProvider.GetValue("UseLoginCaptcha").ConvertToBoolean();
                 }
             }
         }
-        public static string UseSignUpCaptcha
+        public static bool UseSignUpCaptcha
         {
             get
             {
                 using (var settingProvider = new SettingProvider())
                 {
-                    return settingProvider.GetValue("UseSignUpCaptcha");
+                    return settingProvider.GetValue("UseSignUpCaptcha").ConvertToBoolean();
                 }
             }
         }
-        public static string UseForgotPasswordCaptcha
+        public static bool UseForgotPasswordCaptcha
         {
             get
             {
                 using (var settingProvider = new SettingProvider())
                 {
-                    return settingProvider.GetValue("UseForgotPasswordCaptcha");
+                    return settingProvider.GetValue("UseForgotPasswordCaptcha").ConvertToBoolean();
                 }
             }
         }
