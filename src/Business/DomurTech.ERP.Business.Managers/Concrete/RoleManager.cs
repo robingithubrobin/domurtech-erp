@@ -140,5 +140,10 @@ namespace DomurTech.ERP.Business.Managers.Concrete
         {
             throw new NotImplementedException();
         }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

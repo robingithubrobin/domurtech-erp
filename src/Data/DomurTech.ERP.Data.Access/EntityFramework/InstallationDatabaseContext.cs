@@ -9,10 +9,7 @@ namespace DomurTech.ERP.Data.Access.EntityFramework
 {
     public class InstallationDatabaseContext : DbContext, IDatabaseContext
     {
-        public new IDbSet<T> Set<T>() where T : class
-        {
-            return base.Set<T>();
-        }
+        public IDbSet<T> Set<T>() where T : class => base.Set<T>();
 
         public InstallationDatabaseContext()
         {

@@ -20,7 +20,7 @@ namespace DomurTech.ERP.Business.Managers.Concrete
 {
     public class AccountManager : IAccountManager
     {
-
+        private bool _disposed;
         private readonly IRepository<User> _repositoryUser;
         private readonly IRepository<UserHistory> _repositoryUserHistory;
         private readonly IRepository<RoleLanguageLine> _repositoryRoleLanguageLine;
@@ -264,6 +264,30 @@ namespace DomurTech.ERP.Business.Managers.Concrete
             identity.RememberMe = false;
             identity.Roles = new List<string>();
             Thread.CurrentPrincipal = new Principal(identity);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        private void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _repositoryUser.Dispose();
+                    _repositoryUserHistory.Dispose();
+                    _repositoryRoleLanguageLine.Dispose();
+                    _repositoryLanguage.Dispose();
+                    _repositoryRoleUserLine.Dispose();
+                    _repositoryRoleUserLineHistory.Dispose();
+                    _repositorySession.Dispose();
+                    _repositorySessionHistory.Dispose();
+                }
+            }
+            _disposed = true;
         }
     }
 }
