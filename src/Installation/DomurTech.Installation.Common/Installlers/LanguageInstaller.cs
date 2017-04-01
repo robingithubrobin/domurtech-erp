@@ -15,6 +15,7 @@ namespace DomurTech.Installation.Common.Installlers
         {
             _repositoryLanguage = repositoryLanguage;
         }
+
               
         public Language Add(Language language)
         {
@@ -46,6 +47,11 @@ namespace DomurTech.Installation.Common.Installlers
 
             }
             return result;
+        }
+
+        public bool Exists()
+        {
+            return _repositoryLanguage.Get().Any();
         }
     }
 }

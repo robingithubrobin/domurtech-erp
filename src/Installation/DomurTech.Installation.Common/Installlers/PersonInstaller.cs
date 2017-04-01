@@ -31,5 +31,10 @@ namespace DomurTech.Installation.Common.Installlers
             _repositoryPersonHistory.Add(person);
             _repositoryPersonHistory.SaveChanges();
         }
+
+        public bool Exists()
+        {
+            return _repositoryPerson.Get().Any();
+        }
     }
 }

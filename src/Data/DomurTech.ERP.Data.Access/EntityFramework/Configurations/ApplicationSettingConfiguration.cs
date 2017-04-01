@@ -19,7 +19,7 @@ namespace DomurTech.ERP.Data.Access.EntityFramework.Configurations
             ToTable("ApplicationSettings", schema);
             HasKey(x => x.Id);
             Property(x => x.Id).IsRequired();
-            Property(x => x.SettingKey).IsRequired().HasColumnType("nvarchar").HasMaxLength(100).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("UK_SettingKey", 1) { IsUnique = true }));
+            Property(x => x.SettingKey).IsRequired().HasColumnType("nvarchar").HasMaxLength(100).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("UK_SettingKey") { IsUnique = true }));
             Property(x => x.SettingValue).IsRequired().HasColumnType("nvarchar").HasMaxLength(500);
             Property(x => x.Erasable).IsRequired();
             Property(x => x.DisplayOrder).IsRequired().HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute()));

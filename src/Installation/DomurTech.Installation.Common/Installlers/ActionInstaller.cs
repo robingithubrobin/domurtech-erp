@@ -14,17 +14,17 @@ namespace DomurTech.Installation.Common.Installlers
             _repositoryAction = repositoryAction;
         }
 
-        public IQueryable<Action> GetAll()
+        public IQueryable<Action> GetAllActions()
         {
             return _repositoryAction.Get();
         }
 
-        public Action Add(Action action)
+        public Action AddAction(Action action)
         {
             return _repositoryAction.Add(action);
         }
 
-        public List<Action> GetList()
+        public List<Action> GetActionList()
         {
             var list = new ActionDatas().Actions;
             return list.Select(t => new Action

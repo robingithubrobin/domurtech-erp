@@ -20,7 +20,7 @@ namespace DomurTech.ERP.Data.Access.EntityFramework.Configurations
             HasKey(x => x.Id);
             Property(x => x.Id).IsRequired();
 
-            Property(x => x.RoleCode).IsRequired().HasColumnType("nvarchar").HasMaxLength(10).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("UK_RoleCode", 1) { IsUnique = true }));
+            Property(x => x.RoleCode).IsRequired().HasColumnType("nvarchar").HasMaxLength(10).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("UK_RoleCode") { IsUnique = true }));
             Property(x => x.DisplayOrder).IsRequired().HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute()));
             Property(x => x.IsApproved).IsRequired();
             Property(x => x.CreateDate).IsRequired();

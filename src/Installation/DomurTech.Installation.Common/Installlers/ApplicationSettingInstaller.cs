@@ -10,11 +10,14 @@ namespace DomurTech.Installation.Common.Installlers
     public class ApplicationSettingInstaller
     {
         private readonly IRepository<ApplicationSetting> _repositoryApplicationSetting;
+        private readonly IRepository<ApplicationSettingHistory> _repositoryApplicationSettingHistory;
 
-        public ApplicationSettingInstaller(IRepository<ApplicationSetting> repositoryApplicationSetting)
+        public ApplicationSettingInstaller(IRepository<ApplicationSetting> repositoryApplicationSetting, IRepository<ApplicationSettingHistory> repositoryApplicationSettingHistory)
         {
             _repositoryApplicationSetting = repositoryApplicationSetting;
+            _repositoryApplicationSettingHistory = repositoryApplicationSettingHistory;
         }
+
         public bool Exists()
         {
             return _repositoryApplicationSetting.Get().Any();
@@ -25,7 +28,7 @@ namespace DomurTech.Installation.Common.Installlers
             return setting ?? new ApplicationSetting();
         }
 
-        public List<ApplicationSetting> GetList()
+        public List<ApplicationSetting> GetApplicationSettingList()
         {
             var result = new List<ApplicationSetting>();
             var list = new ApplicationSettingDatas().Settings;
@@ -46,17 +49,31 @@ namespace DomurTech.Installation.Common.Installlers
             return result;
         }
 
-        public List<ApplicationSettingHistory> GetList(List<ApplicationSetting> list)
+        public List<ApplicationSettingHistory> GetApplicationSettingHistoryList()
         {
-            return list.Select(setting => new ApplicationSettingHistory
+            return GetAllApplicationSettings().Select(setting => new ApplicationSettingHistory
             {
                 Id = Guid.NewGuid(), SettingId = setting.Id, SettingKey = setting.SettingKey, SettingValue = setting.SettingValue, DisplayOrder = setting.DisplayOrder, IsApproved = setting.IsApproved, CreateDate = DateTime.Now, VersionNo = 1, RestoreVersionNo = 0, IsDeleted = false
             }).ToList();
         }
 
-        public ApplicationSetting Add(ApplicationSetting applicationSetting)
+        public ApplicationSetting AddApplicationSetting(ApplicationSetting applicationSetting)
         {
-            return _repositoryApplicationSetting.Add(applicationSetting);
+            var result= _repositoryApplicationSetting.Add(applicationSetting);
+            _repositoryApplicationSetting.SaveChanges();
+            return result;
+        }
+
+        public ApplicationSettingHistory AddApplicationSettingHistory(ApplicationSettingHistory applicationSettingHistory)
+        {
+            var result = _repositoryApplicationSettingHistory.Add(applicationSettingHistory);
+            _repositoryApplicationSettingHistory.SaveChanges();
+            return result;
+        }
+
+        public List<ApplicationSetting> GetAllApplicationSettings()
+        {
+            return _repositoryApplicationSetting.Get().ToList();
         }
 
 

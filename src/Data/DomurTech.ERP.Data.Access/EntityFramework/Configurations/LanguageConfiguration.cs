@@ -19,7 +19,7 @@ namespace DomurTech.ERP.Data.Access.EntityFramework.Configurations
             ToTable("Languages", schema);
             HasKey(x => x.Id);
             Property(x => x.Id).IsRequired();
-            Property(x => x.LanguageCode).IsRequired().HasColumnType("nvarchar").HasMaxLength(10).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("UK_LanguageCode", 1){IsUnique = true}));
+            Property(x => x.LanguageCode).IsRequired().HasColumnType("nvarchar").HasMaxLength(10).HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute("UK_LanguageCode"){IsUnique = true}));
             Property(x => x.LanguageName).IsRequired().HasColumnType("nvarchar").HasMaxLength(500);
             Property(x => x.DisplayOrder).IsRequired().HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute()));
             Property(x => x.IsApproved).IsRequired();
