@@ -4,6 +4,7 @@ using DomurTech.Globalization;
 
 namespace DomurTech.Exceptions
 {
+    [Serializable]
     public class NotFoundException : BaseApplicationException
     {
 

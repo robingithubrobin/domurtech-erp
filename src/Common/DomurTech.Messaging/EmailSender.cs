@@ -150,7 +150,9 @@ namespace DomurTech.Messaging
                         break;
                     }
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(emailTypes), emailTypes, null);
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(emailTypes), emailTypes, null);
+                    }
             }
             emailKeys.Add(new EmailKey
             {

@@ -10,12 +10,6 @@ namespace DomurTech.ERP.UI.Web.Application.Controllers
         public ActionResult Index()
         {
             return RedirectToAction("MyAccount", "Account");
-        }
-
-        [CustomSecurity]
-        public ActionResult Dashboard()
-        {
-            return View();
-        }
+        }     
     }
 }

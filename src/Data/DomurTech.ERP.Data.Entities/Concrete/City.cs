@@ -12,7 +12,7 @@ namespace DomurTech.ERP.Data.Entities.Concrete
         public bool IsApproved { get; set; }
         public DateTime CreateDate { get; set; }
         public virtual Country Country { get; set; }
-        public virtual IList<CityLanguageLine> CityLanguageLines { get; set; }
-        public virtual IList<District> Districts { get; set; }
+        public virtual ICollection<CityLanguageLine> CityLanguageLines { get; set; }
+        public virtual ICollection<District> Districts { get; set; }
     }
 }

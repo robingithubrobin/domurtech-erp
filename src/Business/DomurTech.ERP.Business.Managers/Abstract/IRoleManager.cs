@@ -1,8 +1,9 @@
-﻿using DomurTech.ERP.Data.Entities.Concrete;
+﻿using System;
+using DomurTech.ERP.Data.Entities.Concrete;
 
 namespace DomurTech.ERP.Business.Managers.Abstract
 {
-    public interface IRoleManager : IBaseManager<Role>
+    public interface IRoleManager : IBaseManager<Role>, IDisposable
     {
       
     }

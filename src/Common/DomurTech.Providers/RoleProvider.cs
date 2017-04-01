@@ -2,45 +2,67 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using DomurTech.Providers.Abstract;
 using DomurTech.Providers.Caching;
 using DomurTech.Providers.DataAccess.EntityFramework;
 using DomurTech.Providers.Entities;
 
 namespace DomurTech.Providers
 {
-    internal class RoleProvider
+    internal class RoleProvider : IDisposable
     {
-        private readonly MemoryCacheManager _memoryCacheManager = new MemoryCacheManager();
+        private bool _disposed;
+        private IRepository<RoleActionLine> _repositoryRoleActionLine;
         public List<Role> Find(string controller, string action)
         {
             List<Role> list;
             var cacheKey = "DomurTech.Providers.RoleProvider.Find." + controller+"."+ action;
-            if (!_memoryCacheManager.Exists(cacheKey))
+            ICacheManager cacheManager = new MemoryCacheManager();
+            if (!cacheManager.Exists(cacheKey))
             {
                 list = GetValueFromDatabase(controller,action);
-                _memoryCacheManager.Add(cacheKey, list);
+                cacheManager.Add(cacheKey, list);
             }
             else
             {
-                return _memoryCacheManager.Get<List<Role>>(cacheKey);
+                return cacheManager.Get<List<Role>>(cacheKey);
             }
             return list;
         }
 
         private List<Role> GetValueFromDatabase(string controller, string action)
         {
-            var context = new DatabaseContext();
-            var list = new List<Role>();
-            var repositoryActionRoleLine = new Repository<RoleActionLine>(context);
-            var query = repositoryActionRoleLine.Get().Include("Role");
-            if (query == null) throw new Exception();
-            var actionRoleLines = query.Where(e =>  e.Action.ControllerName == controller && e.Action.ActionName==action);
-            foreach (var actionRoleLine in actionRoleLines)
+            using (var context = new DatabaseContext())
             {
-                list.Add(actionRoleLine.Role);
+                _repositoryRoleActionLine = new Repository<RoleActionLine>(context);
+                var list = new List<Role>();
+                var query = _repositoryRoleActionLine.Get().Include("Role");
+                if (query == null) throw new Exception();
+                var actionRoleLines = query.Where(e => e.Action.ControllerName == controller && e.Action.ActionName == action);
+                foreach (var actionRoleLine in actionRoleLines)
+                {
+                    list.Add(actionRoleLine.Role);
+                }
+                context.Dispose();
+                return list;
             }
-            context.Dispose();
-            return list;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        public virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _repositoryRoleActionLine.Dispose();
+                }
+            }
+            _disposed = true;
         }
     }
 }

@@ -1,9 +1,10 @@
-﻿using DomurTech.ERP.Business.Entities.Models.AccountModels;
+﻿using System;
+using DomurTech.ERP.Business.Entities.Models.AccountModels;
 using DomurTech.ERP.Business.Managers.Options;
 
 namespace DomurTech.ERP.Business.Managers.Abstract
 {
-    public interface IAccountManager
+    public interface IAccountManager : IDisposable
     {
         AccountModel MyAccount();
         ForgotPasswordModel ForgotPassword();

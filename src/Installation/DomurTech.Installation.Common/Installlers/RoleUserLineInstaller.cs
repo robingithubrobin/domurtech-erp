@@ -9,13 +9,35 @@ namespace DomurTech.Installation.Common.Installlers
     public class RoleUserLineInstaller
     {
         private readonly IRepository<User> _repositoryUser;
+        private readonly IRepository<RoleUserLine> _repositoryRoleUserLine;
+        private readonly IRepository<RoleUserLineHistory> _repositoryRoleUserLineHistory;
 
-        public RoleUserLineInstaller(IRepository<User> repositoryUser)
+        public RoleUserLineInstaller(IRepository<User> repositoryUser, IRepository<RoleUserLine> repositoryRoleUserLine, IRepository<RoleUserLineHistory> repositoryRoleUserLineHistory)
         {
             _repositoryUser = repositoryUser;
+            _repositoryRoleUserLine = repositoryRoleUserLine;
+            _repositoryRoleUserLineHistory = repositoryRoleUserLineHistory;
         }
 
-        public List<RoleUserLine> GetList(List<Role> roles)
+        public RoleUserLine Add(RoleUserLine roleUserLine)
+        {
+            var result = _repositoryRoleUserLine.Add(roleUserLine);
+            _repositoryRoleUserLine.SaveChanges();
+            return result;
+        }
+
+        public void Add(RoleUserLineHistory roleUserLineHistory)
+        {
+            _repositoryRoleUserLineHistory.Add(roleUserLineHistory);
+            _repositoryRoleUserLineHistory.SaveChanges();
+        }
+
+        public IQueryable<RoleUserLine> GetAl()
+        {
+            return _repositoryRoleUserLine.Get();
+        }
+
+        public List<RoleUserLine> GetList(IQueryable<Role> roles)
         {
             var user = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1);
             return roles.Select(role => new RoleUserLine

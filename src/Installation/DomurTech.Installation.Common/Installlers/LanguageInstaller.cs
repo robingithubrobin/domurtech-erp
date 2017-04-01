@@ -15,12 +15,7 @@ namespace DomurTech.Installation.Common.Installlers
         {
             _repositoryLanguage = repositoryLanguage;
         }
-        
-        public bool Exists()
-        {
-            return _repositoryLanguage.Get().Any();
-        }
-
+              
         public Language Add(Language language)
         {
             var result=_repositoryLanguage.Add(language);

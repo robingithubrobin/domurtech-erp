@@ -5,6 +5,7 @@ using DomurTech.Validation.Entities;
 
 namespace DomurTech.Exceptions
 {
+    [Serializable]
     public class CustomValidationException : BaseApplicationException
     {
         private List<CustomValidationResult> _validationResult;

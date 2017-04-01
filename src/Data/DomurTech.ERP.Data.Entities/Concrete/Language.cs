@@ -12,11 +12,11 @@ namespace DomurTech.ERP.Data.Entities.Concrete
         public string LanguageName { get; set; }
         public int DisplayOrder { get; set; }
         public bool IsApproved { get; set; }
-        public virtual IList<CityLanguageLine> CityLanguageLines { get; set; }
-        public virtual IList<CountryLanguageLine> CountryLanguageLines { get; set; }
-        public virtual IList<DistrictLanguageLine> DistrictLanguageLines { get; set; }
-        public virtual IList<RoleLanguageLine> RoleLanguageLines { get; set; }
-        public virtual IList<User> Users { get; set; }
+        public virtual ICollection<CityLanguageLine> CityLanguageLines { get; set; }
+        public virtual ICollection<CountryLanguageLine> CountryLanguageLines { get; set; }
+        public virtual ICollection<DistrictLanguageLine> DistrictLanguageLines { get; set; }
+        public virtual ICollection<RoleLanguageLine> RoleLanguageLines { get; set; }
+        public virtual ICollection<User> Users { get; set; }
 
     }
 

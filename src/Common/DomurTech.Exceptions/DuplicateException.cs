@@ -4,6 +4,7 @@ using DomurTech.Globalization;
 
 namespace DomurTech.Exceptions
 {
+    [Serializable]
     public class DuplicateException : BaseApplicationException
     {
         public DuplicateException() : base(Messages.DangerDuplicatedRecord)

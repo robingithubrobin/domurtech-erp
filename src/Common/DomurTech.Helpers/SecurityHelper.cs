@@ -15,29 +15,33 @@ namespace DomurTech.Helpers
 
         public static string Encrypt(this string plainText)
         {
-            string encryptedText;
             var initVectorBytes = Encoding.UTF8.GetBytes(InitVector);
             var passwordBytes = Encoding.UTF8.GetBytes(PassPhrase);
             var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
             var saltValueBytes = Encoding.UTF8.GetBytes(SaltValue);
-            var password = new Rfc2898DeriveBytes(passwordBytes, saltValueBytes, PasswordIterations);
-            var keyBytes = password.GetBytes(KeySize / 8);
-            var rijndaelManaged = new RijndaelManaged { Mode = CipherMode.CBC };
-            using (var encryptor = rijndaelManaged.CreateEncryptor(keyBytes, initVectorBytes))
+            using (var password = new Rfc2898DeriveBytes(passwordBytes, saltValueBytes, PasswordIterations))
             {
-                using (var memoryStream = new MemoryStream())
+                var keyBytes = password.GetBytes(KeySize / 8);
+                using (var rijndaelManaged = new RijndaelManaged { Mode = CipherMode.CBC })
                 {
-                    using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write)
-                        )
+                    using (var encryptor = rijndaelManaged.CreateEncryptor(keyBytes, initVectorBytes))
                     {
-                        cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
-                        cryptoStream.FlushFinalBlock();
-                        var cipherTextBytes = memoryStream.ToArray();
-                        encryptedText = Convert.ToBase64String(cipherTextBytes);
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
+                            {
+                                cryptoStream.Write(plainTextBytes, 0, plainTextBytes.Length);
+                                cryptoStream.FlushFinalBlock();
+                                var t = memoryStream.ToArray();
+                                cryptoStream.Close();
+                                memoryStream.Close();
+                                return Convert.ToBase64String(t);
+                            }
+                        }
                     }
                 }
             }
-            return encryptedText;
+
         }
 
         public static string Decrypt(this string encryptedText)
@@ -45,26 +49,32 @@ namespace DomurTech.Helpers
             var encryptedTextBytes = Convert.FromBase64String(encryptedText);
             var initVectorBytes = Encoding.UTF8.GetBytes(InitVector);
             var passwordBytes = Encoding.UTF8.GetBytes(PassPhrase);
-            string plainText;
             var saltValueBytes = Encoding.UTF8.GetBytes(SaltValue);
-            var password = new Rfc2898DeriveBytes(passwordBytes, saltValueBytes, PasswordIterations);
-            var keyBytes = password.GetBytes(KeySize / 8);
-            var rijndaelManaged = new RijndaelManaged { Mode = CipherMode.CBC };
-            using (var decryptor = rijndaelManaged.CreateDecryptor(keyBytes, initVectorBytes))
+            using (var password = new Rfc2898DeriveBytes(passwordBytes, saltValueBytes, PasswordIterations))
             {
-                using (var memoryStream = new MemoryStream(encryptedTextBytes))
+                var keyBytes = password.GetBytes(KeySize / 8);
+                using (var rijndaelManaged = new RijndaelManaged { Mode = CipherMode.CBC })
                 {
-                    using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
+                    using (var decryptor = rijndaelManaged.CreateDecryptor(keyBytes, initVectorBytes))
                     {
-                        var plainTextBytes = new byte[encryptedTextBytes.Length];
-                        var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
-                        plainText = Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
+                        using (var memoryStream = new MemoryStream(encryptedTextBytes))
+                        {
+                            using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
+                            {
+                                var plainTextBytes = new byte[encryptedTextBytes.Length];
+                                var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
+                                cryptoStream.Close();
+                                return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
+                            }
+                        }
                     }
                 }
+                
             }
-            return plainText;
+                
+            
         }
-        
+
         public static bool ValidatePassword(string password, int minLength = 8, int numUpper = 1, int numLower = 1, int numNumbers = 1, int numSpecial = 1)
         {
             if (string.IsNullOrEmpty(password))
@@ -135,49 +145,54 @@ namespace DomurTech.Helpers
                 leftGroupsOrder[i] = i;
             }
             var randomBytes = new byte[4];
-            var rng = RandomNumberGenerator.Create();
-            rng.GetBytes(randomBytes);
-            var seed = BitConverter.ToInt32(randomBytes, 0);
-            var random = new Random(seed);
-            var password = new char[length];
-            var lastLeftGroupsOrderIdx = leftGroupsOrder.Length - 1;
-            for (var i = 0; i < password.Length; i++)
+            using (var rng = RandomNumberGenerator.Create())
             {
-                var nextLeftGroupsOrderIdx = lastLeftGroupsOrderIdx == 0 ? 0 : random.Next(0, lastLeftGroupsOrderIdx);
-                var nextGroupIdx = leftGroupsOrder[nextLeftGroupsOrderIdx];
-                var lastCharIdx = charsLeftInGroup[nextGroupIdx] - 1;
-                var nextCharIdx = lastCharIdx == 0 ? 0 : random.Next(0, lastCharIdx + 1);
-                password[i] = charGroups[nextGroupIdx][nextCharIdx];
-                if (lastCharIdx == 0)
+                rng.GetBytes(randomBytes);
+                var seed = BitConverter.ToInt32(randomBytes, 0);
+                var random = new Random(seed);
+                var password = new char[length];
+                var lastLeftGroupsOrderIdx = leftGroupsOrder.Length - 1;
+                for (var i = 0; i < password.Length; i++)
                 {
-                    charsLeftInGroup[nextGroupIdx] = charGroups[nextGroupIdx].Length;
-                }
-                else
-                {
-                    if (lastCharIdx != nextCharIdx)
+                    var nextLeftGroupsOrderIdx = lastLeftGroupsOrderIdx == 0 ? 0 : random.Next(0, lastLeftGroupsOrderIdx);
+                    var nextGroupIdx = leftGroupsOrder[nextLeftGroupsOrderIdx];
+                    var lastCharIdx = charsLeftInGroup[nextGroupIdx] - 1;
+                    var nextCharIdx = lastCharIdx == 0 ? 0 : random.Next(0, lastCharIdx + 1);
+                    password[i] = charGroups[nextGroupIdx][nextCharIdx];
+                    if (lastCharIdx == 0)
                     {
-                        var temp = charGroups[nextGroupIdx][lastCharIdx];
-                        charGroups[nextGroupIdx][lastCharIdx] = charGroups[nextGroupIdx][nextCharIdx];
-                        charGroups[nextGroupIdx][nextCharIdx] = temp;
+                        charsLeftInGroup[nextGroupIdx] = charGroups[nextGroupIdx].Length;
                     }
-                    charsLeftInGroup[nextGroupIdx]--;
-                }
-                if (lastLeftGroupsOrderIdx == 0)
-                {
-                    lastLeftGroupsOrderIdx = leftGroupsOrder.Length - 1;
-                }
-                else
-                {
-                    if (lastLeftGroupsOrderIdx != nextLeftGroupsOrderIdx)
+                    else
                     {
-                        var temp = leftGroupsOrder[lastLeftGroupsOrderIdx];
-                        leftGroupsOrder[lastLeftGroupsOrderIdx] = leftGroupsOrder[nextLeftGroupsOrderIdx];
-                        leftGroupsOrder[nextLeftGroupsOrderIdx] = temp;
+                        if (lastCharIdx != nextCharIdx)
+                        {
+                            var temp = charGroups[nextGroupIdx][lastCharIdx];
+                            charGroups[nextGroupIdx][lastCharIdx] = charGroups[nextGroupIdx][nextCharIdx];
+                            charGroups[nextGroupIdx][nextCharIdx] = temp;
+                        }
+                        charsLeftInGroup[nextGroupIdx]--;
                     }
-                    lastLeftGroupsOrderIdx--;
+                    if (lastLeftGroupsOrderIdx == 0)
+                    {
+                        lastLeftGroupsOrderIdx = leftGroupsOrder.Length - 1;
+                    }
+                    else
+                    {
+                        if (lastLeftGroupsOrderIdx != nextLeftGroupsOrderIdx)
+                        {
+                            var temp = leftGroupsOrder[lastLeftGroupsOrderIdx];
+                            leftGroupsOrder[lastLeftGroupsOrderIdx] = leftGroupsOrder[nextLeftGroupsOrderIdx];
+                            leftGroupsOrder[nextLeftGroupsOrderIdx] = temp;
+                        }
+                        lastLeftGroupsOrderIdx--;
+                    }
                 }
+                return new string(password);
             }
-            return new string(password);
+
+
+            
         }
     }
 }

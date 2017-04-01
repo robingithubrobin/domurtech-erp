@@ -4,6 +4,7 @@ using DomurTech.Globalization;
 
 namespace DomurTech.Exceptions
 {
+    [Serializable]
     public class NotApprovedException : BaseApplicationException
     {
         public NotApprovedException() : base(Messages.DangerItemNotApproved)

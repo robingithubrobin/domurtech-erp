@@ -10,7 +10,7 @@ namespace DomurTech.ERP.Data.Entities.Concrete
         public Guid Id { get; set; }
         public string ControllerName { get; set; }
         public string ActionName { get; set; }
-        public virtual IList<RoleActionLine> RoleActionLines { get; set; }
+        public virtual ICollection<RoleActionLine> RoleActionLines { get; set; }
 
     }
 }

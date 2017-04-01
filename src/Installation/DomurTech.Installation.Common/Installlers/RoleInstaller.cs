@@ -12,16 +12,12 @@ namespace DomurTech.Installation.Common.Installlers
         private readonly IRepository<User> _repositoryUser;
         private readonly IRepository<Role> _repositoryRole;
         private readonly IRepository<RoleHistory> _repositoryRoleHistory;
+
         public RoleInstaller(IRepository<User> repositoryUser, IRepository<Role> repositoryRole, IRepository<RoleHistory> repositoryRoleHistory)
         {
             _repositoryUser = repositoryUser;
             _repositoryRole = repositoryRole;
             _repositoryRoleHistory = repositoryRoleHistory;
-        }
-
-        public IQueryable<Role> GetAll()
-        {
-            return _repositoryRole.Get();
         }
 
         public List<Role> GetList()
@@ -37,42 +33,27 @@ namespace DomurTech.Installation.Common.Installlers
             }).ToList();
         }
 
-        public Role Add(Role role)
+        public List<RoleHistory> GetList(List<Role> items)
         {
-          return _repositoryRole.Add(role);
-        }
-
-        public RoleHistory Add(RoleHistory roleHistory)
-        {
-            return _repositoryRoleHistory.Add(roleHistory);
-        }
-
-        public List<RoleHistory> GetList(IQueryable<Role> items)
-        {
-            var result=new List<RoleHistory>();
             var user = _repositoryUser.Get().FirstOrDefault(x => x.DisplayOrder == 1);
             if (user == null)
             {
                 return new List<RoleHistory>();
             }
-
-            foreach (var item in items)
+            return items.Select(item => new RoleHistory
             {
-                result.Add(new RoleHistory
-                {
-                    Id = Guid.NewGuid(),
-                    RoleId = item.Id,
-                    RoleCode = item.RoleCode,
-                    DisplayOrder = item.DisplayOrder,
-                    IsApproved = item.IsApproved,
-                    CreateDate = DateTime.Now,
-                    CreatedBy = user.Id,
-                    VersionNo = 1,
-                    RestoreVersionNo = 0,
-                    IsDeleted = false
-                });
-            }
-            return result;
+                Id = Guid.NewGuid(),
+                RoleId = item.Id,
+                RoleCode = item.RoleCode,
+                DisplayOrder = item.DisplayOrder,
+                IsApproved = item.IsApproved,
+                CreateDate = DateTime.Now,
+                CreatedBy = user.Id,
+                VersionNo = 1,
+                RestoreVersionNo = 0,
+                IsDeleted = false
+            }).ToList();
+
         }
 
         public List<RoleLanguageLine> GetList(List<Role> items, List<Language> languages)
@@ -90,6 +71,7 @@ namespace DomurTech.Installation.Common.Installlers
                     CreateDate = DateTime.Now
                 }));
             }
+
             return result;
         }
 
@@ -113,5 +95,24 @@ namespace DomurTech.Installation.Common.Installlers
                 IsDeleted = false
             }).ToList();
         }
+
+        public Role Add(Role role)
+        {
+            var result= _repositoryRole.Add(role);
+            _repositoryRole.SaveChanges();
+            return result;
+        }
+
+        public void Add(RoleHistory roleHistory)
+        {
+            _repositoryRoleHistory.Add(roleHistory);
+            _repositoryRoleHistory.SaveChanges();
+        }
+
+        public IQueryable<Role> GetAll()
+        {
+            return _repositoryRole.Get();
+        }
+
     }
 }

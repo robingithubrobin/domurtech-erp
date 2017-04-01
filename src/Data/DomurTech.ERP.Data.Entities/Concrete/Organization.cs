@@ -18,6 +18,6 @@ namespace DomurTech.ERP.Data.Entities.Concrete
         public bool IsApproved { get; set; }
         public DateTime CreateDate { get; set; }
         public virtual District District { get; set; }
-        public virtual IList<Department> Departments { get; set; }
+        public virtual ICollection<Department> Departments { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace DomurTech.ERP.Data.Entities.Concrete
         public int DisplayOrder { get; set; }
         public bool IsApproved { get; set; }
         public DateTime CreateDate { get; set; }      
-        public virtual IList<User> Users { get; set; }
+        public virtual ICollection<User> Users { get; set; }
 
     }
 }

@@ -12,9 +12,9 @@ namespace DomurTech.ERP.Data.Entities.Concrete
         public int DisplayOrder { get; set; }
         public bool IsApproved { get; set; }
         public DateTime CreateDate { get; set; }
-        public virtual IList<RoleActionLine> RoleActionLines { get; set; }
-        public virtual IList<RoleLanguageLine> RoleLanguageLines { get; set; }
-        public virtual IList<RoleUserLine> RoleUserLines { get; set; }
+        public virtual ICollection<RoleActionLine> RoleActionLines { get; set; }
+        public virtual ICollection<RoleLanguageLine> RoleLanguageLines { get; set; }
+        public virtual ICollection<RoleUserLine> RoleUserLines { get; set; }
 
     }
 
