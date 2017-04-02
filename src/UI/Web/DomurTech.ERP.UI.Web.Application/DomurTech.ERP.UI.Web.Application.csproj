@@ -350,6 +350,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CaptchaController.cs" />
+    <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\RedirectionController.cs" />
@@ -363,7 +364,6 @@
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Assets\Fonts\fontawesome-webfont.eot" />
     <Content Include="Assets\Fonts\fontawesome-webfont.ttf" />
@@ -394,6 +394,7 @@
     <Content Include="Views\Account\UserSidebar.cshtml" />
     <Content Include="Views\Redirection\Redirect.cshtml" />
     <None Include="Properties\PublishProfiles\publish.pubxml" />
+    <Content Include="Views\Country\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

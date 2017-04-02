@@ -6,10 +6,10 @@ namespace DomurTech.ERP.UI.Web.Application.Controllers
 {
     public class HomeController : CustomController
     {
-        [CustomSecurity]
+     //   [CustomSecurity]
         public ActionResult Index()
         {
-            return RedirectToAction("MyAccount", "Account");
+            return RedirectToAction("Index", "Country");
         }     
     }
 }

@@ -28,7 +28,6 @@ namespace DomurTech.ERP.Data.Access.EntityFramework.Configurations
             Property(x => x.CreateDate).IsRequired();
             HasRequired(x => x.Language).WithMany(y => y.Users).WillCascadeOnDelete(false);
             HasRequired(x => x.Person).WithMany(y => y.Users).WillCascadeOnDelete(false);
-            Ignore(x => x.FullName);
             Ignore(x => x.DisplayName);
             Ignore(x => x.ConfirmPassword);
             Ignore(x => x.OldPassword);

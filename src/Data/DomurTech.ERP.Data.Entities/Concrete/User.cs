@@ -15,7 +15,6 @@ namespace DomurTech.ERP.Data.Entities.Concrete
         public DateTime CreateDate { get; set; }
         public Person Person { get; set; }
         public virtual Language Language { get; set; }
-        public string FullName => Person.FirstName + " " + Person.LastName;
         public string DisplayName { get; set; }
         public string ConfirmPassword { get; set; }
         public string OldPassword { get; set; }

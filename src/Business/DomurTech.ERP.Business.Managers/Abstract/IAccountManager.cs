@@ -6,18 +6,18 @@ namespace DomurTech.ERP.Business.Managers.Abstract
 {
     public interface IAccountManager : IDisposable
     {
-        AccountModel MyAccount();
-        ForgotPasswordModel ForgotPassword();
-        void ForgotPassword(ForgotPasswordModel model);
-        SignUpModel SignUp();
-        void SignUp(SignUpModel model);
-        UpdatePasswordModel UpdateMyPassword();
-        void UpdateMyPassword(UpdatePasswordModel model);
-        UpdateInformationModel UpdateMyInformation();
-        void UpdateMyInformation(UpdateInformationModel model);
-        LoginModel Login();
-        void Login(LoginModel model);
-        void Logout(LogoutOptions logoutOptions);
+        //AccountModel MyAccount();
+        //ForgotPasswordModel ForgotPassword();
+        //void ForgotPassword(ForgotPasswordModel model);
+        //SignUpModel SignUp();
+        //void SignUp(SignUpModel model);
+        //UpdatePasswordModel UpdateMyPassword();
+        //void UpdateMyPassword(UpdatePasswordModel model);
+        //UpdateInformationModel UpdateMyInformation();
+        //void UpdateMyInformation(UpdateInformationModel model);
+        //LoginModel Login();
+        //void Login(LoginModel model);
+        //void Logout(LogoutOptions logoutOptions);
 
 
     }

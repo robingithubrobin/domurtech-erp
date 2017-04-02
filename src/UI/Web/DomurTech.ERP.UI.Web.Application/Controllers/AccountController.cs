@@ -26,6 +26,7 @@ namespace DomurTech.ERP.UI.Web.Application.Controllers
 
     public class AccountController : CustomController
     {
+        /*
         private readonly IWebSecurityManager _webSecurityManager = new WebSecurityManager();
 
 
@@ -444,5 +445,7 @@ namespace DomurTech.ERP.UI.Web.Application.Controllers
                 }
             }
         }
+        */
     }
+
 }

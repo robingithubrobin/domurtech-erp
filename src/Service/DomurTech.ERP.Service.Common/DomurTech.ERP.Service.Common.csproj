@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{78FFAF04-9EDF-413D-8A33-F4FC9F0F2AAD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DomurTech.ERP.Service.Common</RootNamespace>
+    <AssemblyName>DomurTech.ERP.Service.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abstract\IAccountService.cs" />
+    <Compile Include="Abstract\IBaseService.cs" />
+    <Compile Include="Abstract\IRoleService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccountService.cs" />
+    <Compile Include="Services\RoleService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Business\DomurTech.ERP.Business.Entities\DomurTech.ERP.Business.Entities.csproj">
+      <Project>{403BF19D-1FF7-4AFE-8660-8419835A57BC}</Project>
+      <Name>DomurTech.ERP.Business.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Business\DomurTech.ERP.Business.Managers\DomurTech.ERP.Business.Managers.csproj">
+      <Project>{5F39FBF5-A5A4-4103-AB8B-247B1AC188DE}</Project>
+      <Name>DomurTech.ERP.Business.Managers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\DomurTech.Core\DomurTech.Core.csproj">
+      <Project>{75E64AA9-2D1B-47A1-8303-385DCE954286}</Project>
+      <Name>DomurTech.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\DomurTech.Exceptions\DomurTech.Exceptions.csproj">
+      <Project>{EF3695EB-487D-4602-8391-EE92E30C7D39}</Project>
+      <Name>DomurTech.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\DomurTech.Globalization\DomurTech.Globalization.csproj">
+      <Project>{33AB691C-AE9C-4317-B37C-8DA558783EF6}</Project>
+      <Name>DomurTech.Globalization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\DomurTech.ERP.Data.Entities\DomurTech.ERP.Data.Entities.csproj">
+      <Project>{9286EBC5-E85C-403D-AC18-93DF8B6F4DA0}</Project>
+      <Name>DomurTech.ERP.Data.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomurTech.ERP.Service.Entities\DomurTech.ERP.Service.Entities.csproj">
+      <Project>{B14F73AE-D4CF-4ED0-B397-57AC5E2F155D}</Project>
+      <Name>DomurTech.ERP.Service.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
