@@ -6,5 +6,6 @@ namespace DomurTech.ERP.Service.Common.Abstract
     public interface IRoleService: IDisposable
     {
         DetailModel Detail(Guid roleId, Guid languageId);
+        ListModel List(ListModel filterModel);
     }
 }

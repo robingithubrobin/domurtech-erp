@@ -124,6 +124,10 @@
       <Project>{75E64AA9-2D1B-47A1-8303-385DCE954286}</Project>
       <Name>DomurTech.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\DomurTech.Exceptions\DomurTech.Exceptions.csproj">
+      <Project>{EF3695EB-487D-4602-8391-EE92E30C7D39}</Project>
+      <Name>DomurTech.Exceptions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Data\DomurTech.ERP.Data.Access\DomurTech.ERP.Data.Access.csproj">
       <Project>{F123CB49-EA58-40A4-A185-F9831FAA4E03}</Project>
       <Name>DomurTech.ERP.Data.Access</Name>

@@ -43,6 +43,7 @@
     <Compile Include="Abstract\IServiceEntity.cs" />
     <Compile Include="Concrete\AccountModels\AccountModel.cs" />
     <Compile Include="Concrete\RoleModels\DetailModel.cs" />
+    <Compile Include="Concrete\RoleModels\ListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

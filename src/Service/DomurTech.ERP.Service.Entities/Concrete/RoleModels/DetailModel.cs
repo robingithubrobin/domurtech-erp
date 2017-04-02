@@ -4,7 +4,7 @@ namespace DomurTech.ERP.Service.Entities.Concrete.RoleModels
 {
     public class DetailModel
     {
-        public Guid Id { get; set; }
+        public Guid RoleId { get; set; }
         public string RoleCode { get; set; }
         public string RoleName { get; set; }
         public string RoleDescription { get; set; }

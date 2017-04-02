@@ -5,6 +5,5 @@ namespace DomurTech.ERP.Business.Managers.Abstract
 {
     public interface IRoleManager : IBaseManager<Role>, IDisposable
     {
-      
     }
 }

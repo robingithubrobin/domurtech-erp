@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using DomurTech.Core.Abstract;
 using DomurTech.ERP.Data.Entities.Concrete;
 
 namespace DomurTech.ERP.Business.Entities.Models.BaseModels
 {
-    public class DetailModel<T> : IBaseModel where T : class, IEntity, new()
+    public class DetailModel<T> : IBaseModel
     {
         public T Item { get; set; }
         public DateTime CreateDate { get; set; }

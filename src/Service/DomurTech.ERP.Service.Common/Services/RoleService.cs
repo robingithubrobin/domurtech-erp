@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using DomurTech.ERP.Business.Entities.ComplexTypes;
+using DomurTech.ERP.Business.Entities.Models.BaseModels;
 using DomurTech.ERP.Business.Managers.Abstract;
+using DomurTech.ERP.Data.Entities.Concrete;
 using DomurTech.ERP.Service.Common.Abstract;
 using DomurTech.ERP.Service.Entities.Concrete.RoleModels;
 using DomurTech.Exceptions;
@@ -17,9 +21,7 @@ namespace DomurTech.ERP.Service.Common.Services
         {
             _roleManager = roleManager;
         }
-
         
-
         public DetailModel Detail(Guid roleId, Guid languageId)
         {
             var result = new DetailModel();
@@ -34,7 +36,7 @@ namespace DomurTech.ERP.Service.Common.Services
             {
                 throw new NotFoundException(Messages.DangerRecordNotFound);
             }
-            result.Id = item.Id;
+            result.RoleId = item.Id;
             result.RoleCode = item.RoleCode;
             result.RoleName = itemLanguageLine.RoleName;
             result.RoleDescription = itemLanguageLine.RoleDescription;
@@ -48,6 +50,57 @@ namespace DomurTech.ERP.Service.Common.Services
             result.UpdatedBy = businessModel.UpdatedBy.DisplayName;
             return result;
         }
+
+        public ListModel List(ListModel filterModel)
+        {
+            var businessModel = _roleManager.GetList(new ListModel<Role>
+            {
+                Paging = new Paging
+                {
+                    PageNumber = filterModel.PageNumber,
+                    PageSize = filterModel.PageSize
+                },
+                LanguageCode = filterModel.LanguageCode,
+                StartDate = filterModel.StartDate,
+                EndDate = filterModel.EndDate,
+                Searched = filterModel.Searched,
+                Status = filterModel.Status
+                
+            });
+
+
+            var list = new List<DetailModel>();
+            foreach (var item in businessModel.Items)
+            {
+                var itemLanguageLine = item.RoleLanguageLines.FirstOrDefault(x=>x.Language.LanguageCode==filterModel.LanguageCode);
+                if (itemLanguageLine!=null)
+                {
+                    list.Add(new DetailModel
+                    {
+                        RoleId = item.Id,
+                        RoleCode = item.RoleCode,
+                        RoleName = itemLanguageLine.RoleName,
+                        RoleDescription = itemLanguageLine.RoleDescription,
+                        LanguageCode = filterModel.LanguageCode,
+                        DisplayOrder = item.DisplayOrder,
+                        IsApproved = item.IsApproved,
+                        CreateDate = item.CreateDate
+                    });
+                }
+            }
+            
+            return new ListModel
+            {
+                LanguageCode = filterModel.LanguageCode,
+                Status = filterModel.Status,
+                StartDate = filterModel.StartDate,
+                EndDate = filterModel.EndDate,
+                PageNumber = filterModel.PageNumber,
+                PageSize = filterModel.PageSize,
+                Items = list
+            };
+        }
+
         public void Dispose()
         {
             Dispose(true);
